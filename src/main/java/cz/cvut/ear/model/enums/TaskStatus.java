@@ -1,8 +1,5 @@
 package cz.cvut.ear.model.enums;
 
 public enum TaskStatus {
-    NOT_STARTED,
-    IN_PROGRESS,
-    DONE
-
+    TO_DO, IN_PROGRESS, RELEASED_TO_PRODUCTION, CLOSED
 }
