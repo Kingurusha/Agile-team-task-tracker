@@ -1,44 +1,47 @@
-package cz.cvut.ear.service.impl;
+package cz.cvut.ear.service;
 
-import cz.cvut.ear.DAO.ProjectRepository;
+import cz.cvut.ear.dao.ProjectRepository;
 import cz.cvut.ear.model.Project;
-import cz.cvut.ear.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProjectServiceImpl implements ProjectService {
-
+public class ProjectService {
     private final ProjectRepository projectRepository;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 
-    @Override
+    public void showAllTasksInProject() {
+
+    }
+
+    public void showActiveTasksInProject() {
+
+    }
+
+    // ----- OLD -------------
+
     public Project addProject(Project project) {
         return projectRepository.saveAndFlush(project);
     }
 
-    @Override
     public void deleteProject(long projectId) {
         projectRepository.deleteById(projectId);
     }
 
-    @Override
     public Project getByName(String name) {
-        return projectRepository.findByName(name);
+        return projectRepository.findByProjectName(name).get();
     }
 
-    @Override
     public Project editProject(Project project) {
         return projectRepository.saveAndFlush(project);
     }
 
-    @Override
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
