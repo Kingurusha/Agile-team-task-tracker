@@ -1,11 +1,18 @@
 package cz.cvut.ear.service;
 
 import cz.cvut.ear.dao.ProjectRepository;
+import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
+import cz.cvut.ear.model.Sprint;
+import cz.cvut.ear.model.Task;
+import cz.cvut.ear.model.enums.ProjectStatus;
+import cz.cvut.ear.model.enums.SprintStatus;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProjectService {
@@ -16,21 +23,50 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public void showAllTasksInProject() {
+    public void showAllTasksInProject(long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + projectId));
 
+        List<Task> tasksInProject = projectRepository.findAllTasksInProject(projectId);
+
+        for (Task task : tasksInProject) {
+            System.out.println(task.toString());
+        }
     }
 
-    public void showActiveTasksInProject() {
+    public void showActiveTasksInProject(long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + projectId));
 
+        List<Task> activeTasksInProject = projectRepository.findNonClosedTasksInProject(projectId);
+
+        for (Task task : activeTasksInProject) {
+            System.out.println(task.toString());
+        }
     }
 
-    // ----- OLD -------------
 
     public Project addProject(Project project) {
         return projectRepository.saveAndFlush(project);
     }
 
     public void deleteProject(long projectId) {
+        Project projectToDelete = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + projectId));
+        if (projectToDelete.getProjectStatus() != ProjectStatus.CLOSED) {
+            throw new IllegalStateException("Cannot delete project because the project is not closed.");
+        }
+        Set<Sprint> sprintsInProject = projectToDelete.getSprintsInProject();
+        Set<Employee> usersInProject = projectToDelete.getUsersInProject();
+
+        if (sprintsInProject != null && sprintsInProject.stream().anyMatch(sprint -> sprint.getSprintStatus() != SprintStatus.CLOSED)) {
+            throw new IllegalStateException("Cannot delete project because there are still open sprints.");
+        }
+
+        if (usersInProject != null && !usersInProject.isEmpty()) {
+            throw new IllegalStateException("Cannot delete project because there are still users assigned to the project.");
+        }
+
         projectRepository.deleteById(projectId);
     }
 
