@@ -30,6 +30,7 @@ public class Sprint extends AbstractEntity implements Serializable {
     @JoinColumn(name="PROJECT_ID", nullable = false)
     private Project project;
 
+    @Column(nullable = false)
     private Integer ordinalNumberInProject;
 
     @OneToMany(mappedBy = "sprint")

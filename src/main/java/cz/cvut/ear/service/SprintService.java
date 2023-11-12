@@ -2,7 +2,7 @@ package cz.cvut.ear.service;
 
 import cz.cvut.ear.dao.ProjectRepository;
 import cz.cvut.ear.dao.SprintRepository;
-import cz.cvut.ear.exception.InvalidOperationException;
+import cz.cvut.ear.dao.TaskRepository;
 import cz.cvut.ear.exception.NoSuchEntityException;
 import cz.cvut.ear.helpers.validators.SprintValidator;
 import cz.cvut.ear.model.Project;
@@ -14,50 +14,51 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SprintService {
     private final SprintRepository sprintRepository;
     private final ProjectRepository projectRepository;
-
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public SprintService(SprintRepository sprintRepository, ProjectRepository projectRepository) {
+    public SprintService(SprintRepository sprintRepository, ProjectRepository projectRepository, TaskRepository taskRepository) {
         this.sprintRepository = sprintRepository;
         this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
     }
 
 
-    // done (кроме Transactional)
     public void startSprintById(Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId)
                 .orElseThrow(() -> NoSuchEntityException.create("Sprint" , sprintId));
         baseStartSprint(sprint);
     }
 
-    // done (кроме Transactional)
     public void startSprintByOrdinalNumber(Long projectId, Integer sprintOrdinalNumberInProject) {
         Sprint sprint = findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
         baseStartSprint(sprint);
     }
 
-    // done (кроме Transactional)
     public void endSprintById(Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId)
                 .orElseThrow(() -> NoSuchEntityException.create("Sprint" , sprintId));
         baseEndSprint(sprint);
     }
 
-    // done (кроме Transactional)
     public void endSprintByOrdinalNumber(Long projectId, Integer sprintOrdinalNumberInProject) {
         Sprint sprint = findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
         baseEndSprint(sprint);
     }
 
-
-    // done (кроме Transactional и save/saveAndFlush)
+    /**
+     * Basic logic for sprint starting
+     *
+     * @param sprint - NonNull Sprint object which will be started
+     */
     private void baseStartSprint(Sprint sprint) {
         SprintValidator.validateStart(sprint);
 
@@ -67,11 +68,15 @@ public class SprintService {
         sprint.setStartDateTime(LocalDateTime.now());
         project.setCurrentSprint(sprint);
 
-        sprintRepository.save(sprint); // saveAndFlush?
-        projectRepository.save(project); // saveAndFlush?
+        sprintRepository.save(sprint);
+        projectRepository.save(project);
     }
 
-    // done (кроме Transactional и save/saveAndFlush)
+    /**
+     * Basic logic for sprint ending
+     *
+     * @param sprint - NonNull Sprint object which will be started
+     */
     private void baseEndSprint(Sprint sprint) {
         SprintValidator.validateEnd(sprint);
 
@@ -81,15 +86,13 @@ public class SprintService {
         sprint.setEndDateTime(LocalDateTime.now());
         project.setCurrentSprint(null);
 
-        sprintRepository.save(sprint); // saveAndFlush?
-        projectRepository.save(project); // saveAndFlush?
+        sprintRepository.save(sprint);
+        projectRepository.save(project);
     }
 
-
-    // done? (кроме Transactional)
     @Transactional(readOnly = true)
     public Sprint findByOrdinalNumberInProject(Long projectId, Integer sprintOrdinalNumberInProject) {
-        Optional<Sprint> sprintOptional = sprintRepository.findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
+        Optional<Sprint> sprintOptional = sprintRepository.findByProjectIdAndOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
         if (sprintOptional.isEmpty()) {
             throw new NoSuchEntityException("In the project with the id " + projectId +
                     " was not found sprint with ordinal number " + sprintOrdinalNumberInProject);
@@ -97,101 +100,28 @@ public class SprintService {
         return sprintOptional.get();
     }
 
-
-
-
-
-
-
-
-
-
-    // ----------------------------------------
-
     /**
-     * Creates a sprint in the project, with a particular sequence number
+     * Delete the sprint and all related tasks from the tracking system
      *
-     * @param projectId id of the project to which the sprint will belong
      */
+    @Transactional
+    public void deleteSprint(Sprint sprint) {
+        SprintValidator.validateDelete(sprint);
+        Set<Task> tasksToDelete = new HashSet<>(taskRepository.findBySprintId(sprint.getId()));
+        for(Task task: tasksToDelete) {
+            taskRepository.deleteById(task.getId());
+        }
+        sprintRepository.deleteById(sprint.getId());
+    }
+
+    @Transactional
     public void createSprint(Sprint sprint) {
         SprintValidator.validateCreate(sprint);
 
         Project project = sprint.getProject();
-        // project.sprints.add(sprint)
+        project.getSprintsInProject().add(sprint);
 
-        sprintRepository.save(sprint); // saveAndFlush?
-        projectRepository.save(project); // saveAndFlush?
-
-
-        // Crud
-        // добавить в спринт в колонку проект id проекта
-        //порядковый номер спринта в проекте
-        // статус спринта
-        // tasksInSprint = []
-        // springdao.persist(new sprint)
-        // startDateTime. endDatetime
-        // persist(all)
-    }
-
-    /**
-     * Basic logic for sprint start
-     *
-     * @param sprint - NonNull Sprint object which will be started
-     * @param project
-     */
-
-
-
-
-
-
-
-    /**
-     * Set the sprint status to "closed"
-     *
-     */
-
-
-
-
-
-
-    // not done
-    @Transactional
-    public void deleteSprint(long sprintId) {
-        // cruD
-        //sprintRepository.deleteById(sprintId);
-        // удалить все таски у людей, из проета сложность
-        // offtop currentSprint в проекте, цель в спринте
-    }
-
-
-
-
-
-    /**
-     * Delete the sprint and all tasks in it from the tracking system
-     *
-     */
-
-
-
-
-    // ----- HELPERS -----------
-    private void validateStarting(Sprint sprint, Project project) {
-        if (sprint.getSprintStatus() != SprintStatus.FUTURE
-                || project == null
-                || false
-                || false) {
-            throw new InvalidOperationException("ff");
-        }
-        // он в статусе будущий(иначе ошибка)
-        // предыдуший закрыт
-        // проверить порядковый номер
-    }
-
-
-    private int generateOrdinalNumber() {
-        return 1;
+        sprintRepository.save(sprint);
+        projectRepository.save(project);
     }
 }

@@ -85,7 +85,7 @@ public class TaskService {
 
 
     public List<Task> showTasksByPriority(TaskPriority taskPriority) {
-        return taskRepository.findByPriority(taskPriority);
+        return taskRepository.findByTaskPriority(taskPriority);
     }
 
 
