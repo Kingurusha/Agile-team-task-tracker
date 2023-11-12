@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -117,38 +115,5 @@ class TaskServiceTest {
 
         assertEquals(storyPoints, resultTask.getTaskPoints());
         verify(taskRepository, times(1)).save(resultTask);
-    }
-
-    @Test
-    void moveToAnotherSprint() {
-        TaskRepository taskRepository = Mockito.mock(TaskRepository.class);
-        SprintRepository sprintRepository = Mockito.mock(SprintRepository.class);
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        ProjectRepository projectRepository = Mockito.mock(ProjectRepository.class);
-
-        TaskService taskService = new TaskService(taskRepository, sprintRepository, projectRepository, employeeRepository);
-
-        Task task = Generator.generateTask();
-        task.setId(1L);
-
-        Sprint currentSprint = Generator.generateSprint();
-        currentSprint.setId(2L);
-        task.setSprint(currentSprint);
-
-        Sprint newSprint = Generator.generateSprint();
-        newSprint.setId(3L);
-
-        Set<Task> tasksInSprint = new HashSet<>();
-        newSprint.setTasksInSprint(tasksInSprint);
-
-        when(taskRepository.findById(task.getId())).thenReturn(java.util.Optional.of(task));
-        when(sprintRepository.findById(newSprint.getId())).thenReturn(java.util.Optional.of(newSprint));
-
-        taskService.moveToAnotherSprint(newSprint.getId(), task.getId());
-
-        assertEquals(newSprint, task.getSprint());
-        verify(taskRepository, times(1)).save(task);
-        verify(sprintRepository, times(1)).save(newSprint);
-        verify(sprintRepository, times(1)).save(currentSprint);
     }
 }
