@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "EMPLOYEE_TYPE")
-public class Employee extends AbstractEntity {
+public abstract class Employee extends AbstractEntity {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)

@@ -4,7 +4,6 @@ import cz.cvut.ear.dao.ProjectRepository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Sprint;
-import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.model.enums.SprintStatus;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,29 +21,6 @@ public class ProjectService {
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
-
-    public void showAllTasksInProject(long projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + projectId));
-
-        List<Task> tasksInProject = projectRepository.findAllTasksInProject(projectId);
-
-        for (Task task : tasksInProject) {
-            System.out.println(task.toString());
-        }
-    }
-
-    public void showActiveTasksInProject(long projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + projectId));
-
-        List<Task> activeTasksInProject = projectRepository.findNonClosedTasksInProject(projectId);
-
-        for (Task task : activeTasksInProject) {
-            System.out.println(task.toString());
-        }
-    }
-
 
     public Project addProject(Project project) {
         return projectRepository.saveAndFlush(project);
