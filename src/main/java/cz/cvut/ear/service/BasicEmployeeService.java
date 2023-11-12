@@ -23,8 +23,6 @@ public class BasicEmployeeService {
         return employeeRepository.saveAndFlush(employee);
     }
 
-    // поменять на объект Employee?
-    // удадить из Project.usersInProject? удалить из Task.assignee, Task.participants?
     public void deleteEmployee(long employeeId) {
         employeeRepository.deleteById(employeeId);
     }

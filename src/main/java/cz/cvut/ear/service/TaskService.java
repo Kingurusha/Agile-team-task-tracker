@@ -1,9 +1,10 @@
 package cz.cvut.ear.service;
 
+import cz.cvut.ear.dao.EmployeeRepository;
 import cz.cvut.ear.dao.ProjectRepository;
 import cz.cvut.ear.dao.SprintRepository;
 import cz.cvut.ear.dao.TaskRepository;
-import cz.cvut.ear.model.Project;
+import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.TaskPriority;
@@ -12,8 +13,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,22 +21,62 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final SprintRepository sprintRepository;
     private final ProjectRepository projectRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, SprintRepository sprintRepository, ProjectRepository projectRepository) {
+    public TaskService(TaskRepository taskRepository, SprintRepository sprintRepository, ProjectRepository projectRepository, EmployeeRepository employeeRepository) {
         this.taskRepository = taskRepository;
         this.sprintRepository = sprintRepository;
         this.projectRepository = projectRepository;
+        this.employeeRepository = employeeRepository;
     }
 
-    // ----- OLD -------------
-
     public Task addTask(Task task) {
-        return taskRepository.saveAndFlush(task);
+        Sprint sprint = task.getSprint();
+        Employee assignee = task.getAssignee();
+
+        if (sprint != null) {
+            Sprint existingSprint = sprintRepository.findById(sprint.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Sprint not found with ID: " + sprint.getId()));
+            existingSprint.getTasksInSprint().add(task);
+            sprintRepository.save(existingSprint);
+        }
+
+        if (assignee != null) {
+            Employee existingAssignee = employeeRepository.findById(assignee.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Employee not found with ID: " + assignee.getId()));
+            existingAssignee.getUserTasks().add(task);
+            employeeRepository.save(existingAssignee);
+        }
+
+        return taskRepository.save(task);
     }
 
 
     public void deleteTask(long taskId) {
+        Task taskToDelete = taskRepository.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with ID: " + taskId));
+        // Additional check to ensure the task is closed before deletion
+        if (taskToDelete.getTaskStatus() != TaskStatus.CLOSED) {
+            throw new IllegalStateException("Task cannot be deleted because it is not closed.");
+        }
+        Sprint sprint = taskToDelete.getSprint();
+        Employee assignee = taskToDelete.getAssignee();
+
+        if (sprint != null) {
+            Sprint existingSprint = sprintRepository.findById(sprint.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Sprint not found with ID: " + sprint.getId()));
+            existingSprint.getTasksInSprint().remove(taskToDelete);
+            sprintRepository.save(existingSprint);
+        }
+
+        if (assignee != null) {
+            Employee existingAssignee = employeeRepository.findById(assignee.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Employee not found with ID: " + assignee.getId()));
+            existingAssignee.getUserTasks().remove(taskToDelete);
+            employeeRepository.save(existingAssignee);
+        }
+
         taskRepository.deleteById(taskId);
     }
 
@@ -50,12 +89,6 @@ public class TaskService {
     public Task editTask(Task task) {
         return taskRepository.saveAndFlush(task);
     }
-
-
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
-    }
-
 
     public List<Task> showTasksByUsername(String username) {
         return taskRepository.findByAssigneeUsername(username);
@@ -108,26 +141,5 @@ public class TaskService {
 
         newSprint.setTasksInSprint(tasksInSprint);
         sprintRepository.save(newSprint);
-    }
-
-    // we delete reference between task and project
-    // TASK to another PROJECT???
-    public void moveToAnotherProject(Project project, long taskId) {
-//        Task task = taskRepository.findById(taskId)
-//                .orElseThrow(() -> new EntityNotFoundException("Task not found"));
-//
-//        Project currentProject = task.getProject();
-//        if (currentProject != null && currentProject.equals(project)) {
-//            throw new IllegalArgumentException("Task is already in the specified project");
-//        }
-//
-//        task.setProject(project);
-//        taskRepository.save(task);
-//
-//        List<Task> tasksInProject = new ArrayList<>(currentProject.getTasksInProject());
-//        tasksInProject.add(task);
-//        currentProject.setTasksInProject(new HashSet<>(tasksInProject));
-//
-//        projectRepository.save(project);
     }
 }

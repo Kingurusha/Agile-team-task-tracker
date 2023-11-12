@@ -16,8 +16,6 @@ public class LabelService {
         this.labelRepository = labelRepository;
     }
 
-    // ----- OLD -------------
-
     public Label addLabel(Label label) {
         return labelRepository.saveAndFlush(label);
     }
