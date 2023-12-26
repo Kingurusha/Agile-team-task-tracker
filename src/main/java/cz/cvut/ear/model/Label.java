@@ -7,11 +7,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class Label extends AbstractEntity implements Serializable {
     @Column(unique = true, nullable = false)
     private String labelName;
