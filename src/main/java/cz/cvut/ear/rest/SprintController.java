@@ -20,13 +20,13 @@ public class SprintController {
     @Autowired
     private SprintService sprintService;
 
+
     // get sprint with concrete id
     @GetMapping(value = "/{sprintId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Sprint getSprintById(@PathVariable Long sprintId) {
         // todo: validation
         return sprintService.getSprintById(sprintId);
     }
-
 
     // create new sprint
     @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
@@ -54,14 +54,5 @@ public class SprintController {
                                     @RequestBody Map<String, Object> updates) {
         // todo: validation
         sprintService.partialSprintUpdate(sprintId, updates);
-    }
-
-    // delete task from sprint
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
-    @DeleteMapping(value = "/{sprintId}/tasks/{taskId}")
-    public void removeTaskFromSprint(@PathVariable Long sprintId,
-                                     @PathVariable Long taskId) {
-        // todo: validation
-        sprintService.removeTaskFromSprint(sprintId, taskId);
     }
 }

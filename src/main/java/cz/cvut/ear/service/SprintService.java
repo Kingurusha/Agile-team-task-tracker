@@ -4,25 +4,27 @@ import cz.cvut.ear.dao.ProjectRepository;
 import cz.cvut.ear.dao.SprintRepository;
 import cz.cvut.ear.dao.TaskRepository;
 import cz.cvut.ear.exception.NoSuchEntityException;
-import cz.cvut.ear.helpers.validators.SprintValidator;
+import cz.cvut.ear.helper.validator.SprintValidator;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Sprint;
-import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.SprintStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.time.LocalDate;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class SprintService {
-    private final SprintRepository sprintRepository;
     private final ProjectRepository projectRepository;
+    private final SprintRepository sprintRepository;
     private final TaskRepository taskRepository;
+    private static final Logger LOG = LoggerFactory.getLogger(SprintService.class);
+
 
     @Autowired
     public SprintService(SprintRepository sprintRepository, ProjectRepository projectRepository, TaskRepository taskRepository) {
@@ -31,6 +33,55 @@ public class SprintService {
         this.taskRepository = taskRepository;
     }
 
+
+    // done
+    @Transactional(readOnly = true)
+    public Sprint getSprintById(Long sprintId) {
+        return sprintRepository.findById(sprintId).get();
+    }
+
+    // done
+    @Transactional
+    public void createSprint(Sprint sprint) {
+        Project project = sprint.getProject();
+
+        // add the transferred sprint to the corresponding project
+        project.getSprintsInProject().add(sprint);
+
+        // set the correct ordinal number in project
+        Integer correctOrdinalNumberInProject = project.getSprintsInProject().size() + 1;
+        if (!sprint.getOrdinalNumberInProject().equals(correctOrdinalNumberInProject)) {
+            LOG.warn("Incorrect sprint ordinal number in project transmitted, number {} will be overwriting to {}",
+                    sprint.getOrdinalNumberInProject(), correctOrdinalNumberInProject);
+        }
+        sprint.setOrdinalNumberInProject(correctOrdinalNumberInProject);
+
+        // set the correct sprint status
+        SprintStatus correctSprintStatus = SprintStatus.FUTURE;
+        if (!sprint.getSprintStatus().equals(correctSprintStatus)) {
+            LOG.warn("Incorrect sprint status transmitted, status {} will be overwriting to {}",
+                    sprint.getSprintStatus(), correctSprintStatus);
+        }
+        sprint.setSprintStatus(correctSprintStatus);
+
+        projectRepository.save(project);
+        sprintRepository.save(sprint);
+
+        LOG.debug("Created sprint {}.", sprint);
+    }
+
+    @Transactional
+    public void updateSprint(Sprint sprint) {
+
+    }
+
+    @Transactional
+    public void partialSprintUpdate(Long sprintId, Map<String, Object> updates) {
+
+    }
+
+
+    // ------------------- old --------------------------
 
     public void startSprintById(Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId)
@@ -65,7 +116,7 @@ public class SprintService {
         Project project = sprint.getProject();
 
         sprint.setSprintStatus(SprintStatus.IN_PROGRESS);
-        sprint.setStartDateTime(LocalDateTime.now());
+        sprint.setStartDate(LocalDate.now());
         project.setCurrentSprint(sprint);
 
         sprintRepository.save(sprint);
@@ -83,7 +134,7 @@ public class SprintService {
         Project project = sprint.getProject();
 
         sprint.setSprintStatus(SprintStatus.CLOSED);
-        sprint.setEndDateTime(LocalDateTime.now());
+        sprint.setEndDate(LocalDate.now());
         project.setCurrentSprint(null);
 
         sprintRepository.save(sprint);
@@ -100,28 +151,17 @@ public class SprintService {
         return sprintOptional.get();
     }
 
-    /**
-     * Delete the sprint and all related tasks from the tracking system
-     *
-     */
-    @Transactional
-    public void deleteSprint(Sprint sprint) {
-        SprintValidator.validateDelete(sprint);
-        Set<Task> tasksToDelete = new HashSet<>(taskRepository.findBySprintId(sprint.getId()));
-        for(Task task: tasksToDelete) {
-            taskRepository.deleteById(task.getId());
-        }
-        sprintRepository.deleteById(sprint.getId());
-    }
-
-    @Transactional
-    public void createSprint(Sprint sprint) {
-        SprintValidator.validateCreate(sprint);
-
-        Project project = sprint.getProject();
-        project.getSprintsInProject().add(sprint);
-
-        sprintRepository.save(sprint);
-        projectRepository.save(project);
-    }
+//    /**
+//     * Delete the sprint and all related tasks from the tracking system
+//     *
+//     */
+//    @Transactional
+//    public void deleteSprint(Sprint sprint) {
+//        SprintValidator.validateDelete(sprint);
+//        Set<Task> tasksToDelete = new HashSet<>(taskRepository.findBySprintId(sprint.getId()));
+//        for(Task task: tasksToDelete) {
+//            taskRepository.deleteById(task.getId());
+//        }
+//        sprintRepository.deleteById(sprint.getId());
+//    }
 }
