@@ -17,8 +17,14 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
 @RequestMapping("/api/labels")
 public class LabelController {
+    private final LabelService labelService;
+
+
     @Autowired
-    private LabelService labelService;
+    public LabelController(LabelService labelService) {
+        this.labelService = labelService;
+    }
+
 
     // get all labels
     // done

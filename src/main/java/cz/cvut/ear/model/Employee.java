@@ -17,6 +17,8 @@ public class Employee extends AbstractEntity implements Serializable {
     private String surname;
     @Column(unique = true, nullable = false)
     private String username;
+    @Column(nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

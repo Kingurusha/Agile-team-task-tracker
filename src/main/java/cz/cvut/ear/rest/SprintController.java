@@ -17,8 +17,13 @@ import java.util.Map;
 @PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
 @RequestMapping("/api/sprints")
 public class SprintController {
+    private final SprintService sprintService;
+
+
     @Autowired
-    private SprintService sprintService;
+    public SprintController(SprintService sprintService) {
+        this.sprintService = sprintService;
+    }
 
 
     // get sprint with concrete id
