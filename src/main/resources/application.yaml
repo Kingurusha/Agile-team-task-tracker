@@ -1,3 +1,4 @@
+# old one (is functional?)
 #spring:
 #  application:
 #    name: testName
@@ -6,3 +7,16 @@
 #  h2:
 #    console:
 #      enabled: true
+
+server:
+  servlet:
+    session:
+      timeout: 30m
+
+# database connection setup
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: fasdf
+    username: fdfd
+    password: sdfasd
