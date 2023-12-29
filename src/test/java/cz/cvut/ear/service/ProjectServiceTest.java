@@ -1,6 +1,6 @@
 package cz.cvut.ear.service;
 
-import cz.cvut.ear.dao.ProjectRepository;
+import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.model.Project;
 import org.junit.jupiter.api.Test;
 import cz.cvut.ear.model.enums.ProjectStatus;

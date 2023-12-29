@@ -1,8 +1,6 @@
-package cz.cvut.ear.dao;
+package cz.cvut.ear.repository;
 
 import cz.cvut.ear.Generator;
-import cz.cvut.ear.model.EmpoweredEmployee;
-import cz.cvut.ear.model.RegularEmployee;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

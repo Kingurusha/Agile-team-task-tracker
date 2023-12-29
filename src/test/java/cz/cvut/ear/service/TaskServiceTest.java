@@ -1,10 +1,10 @@
 package cz.cvut.ear.service;
 
 import cz.cvut.ear.Generator;
-import cz.cvut.ear.dao.EmployeeRepository;
-import cz.cvut.ear.dao.ProjectRepository;
-import cz.cvut.ear.dao.SprintRepository;
-import cz.cvut.ear.dao.TaskRepository;
+import cz.cvut.ear.repository.EmployeeRepository;
+import cz.cvut.ear.repository.ProjectRepository;
+import cz.cvut.ear.repository.SprintRepository;
+import cz.cvut.ear.repository.TaskRepository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;

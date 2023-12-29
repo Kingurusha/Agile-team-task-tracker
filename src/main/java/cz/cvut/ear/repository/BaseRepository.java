@@ -1,4 +1,4 @@
-package cz.cvut.ear.dao;
+package cz.cvut.ear.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

@@ -1,4 +1,4 @@
-package cz.cvut.ear.dao;
+package cz.cvut.ear.repository;
 
 import cz.cvut.ear.Generator;
 import cz.cvut.ear.model.Project;
