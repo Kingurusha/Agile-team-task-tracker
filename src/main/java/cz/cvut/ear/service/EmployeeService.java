@@ -1,8 +1,8 @@
 package cz.cvut.ear.service;
 
-import cz.cvut.ear.dao.EmployeeRepository;
-import cz.cvut.ear.dao.ProjectRepository;
-import cz.cvut.ear.dao.TaskRepository;
+import cz.cvut.ear.repository.EmployeeRepository;
+import cz.cvut.ear.repository.ProjectRepository;
+import cz.cvut.ear.repository.TaskRepository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Task;

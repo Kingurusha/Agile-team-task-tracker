@@ -46,7 +46,7 @@ public class Task extends AbstractEntity implements Serializable {
     private Set<Employee> participants;
 
     @ManyToOne
-    @JoinColumn(name = "SPRINT_ID")
+    @JoinColumn(name = "SPRINT_ID", nullable = false)
     private Sprint sprint;
 
     @ManyToMany

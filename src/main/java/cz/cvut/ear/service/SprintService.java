@@ -1,8 +1,8 @@
 package cz.cvut.ear.service;
 
-import cz.cvut.ear.dao.ProjectRepository;
-import cz.cvut.ear.dao.SprintRepository;
-import cz.cvut.ear.dao.TaskRepository;
+import cz.cvut.ear.repository.ProjectRepository;
+import cz.cvut.ear.repository.SprintRepository;
+import cz.cvut.ear.repository.TaskRepository;
 import cz.cvut.ear.exception.NoSuchEntityException;
 import cz.cvut.ear.helper.validator.SprintValidator;
 import cz.cvut.ear.model.Project;

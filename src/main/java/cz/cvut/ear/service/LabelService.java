@@ -1,6 +1,6 @@
 package cz.cvut.ear.service;
 
-import cz.cvut.ear.dao.LabelRepository;
+import cz.cvut.ear.repository.LabelRepository;
 import cz.cvut.ear.model.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
