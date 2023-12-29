@@ -48,7 +48,7 @@ public class EmployeeController {
     }
 
     // get employee by username
-    @GetMapping(value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee getEmployeeByUsername(@PathVariable String username) {
         // todo: validation
         return employeeService.getEmployeeByUsername(username);
@@ -72,7 +72,7 @@ public class EmployeeController {
     @GetMapping(value = "/{employeeId}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> getAllEmployeeTasksById(@PathVariable Long employeeId) {
         // todo: validation
-        return employeeService.getAllEmployeeTasksById(employeeId);
+        return employeeService.getAllEmployeeTasks(employeeId);
     }
 
     // get all employee tasks by employee username

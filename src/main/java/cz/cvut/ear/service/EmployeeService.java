@@ -1,6 +1,8 @@
 package cz.cvut.ear.service;
 
 import cz.cvut.ear.dao.EmployeeRepository;
+import cz.cvut.ear.dao.ProjectRepository;
+import cz.cvut.ear.dao.TaskRepository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Task;
@@ -17,12 +19,16 @@ import java.util.Map;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
 
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, TaskRepository taskRepository, ProjectRepository projectRepository) {
         this.employeeRepository = employeeRepository;
+        this.taskRepository = taskRepository;
+        this.projectRepository = projectRepository;
     }
 
 
@@ -44,19 +50,22 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    // done
     @Transactional(readOnly = true)
     public List<Project> getAllEmployeeProjects(Long employeeId) {
-        return null;
+        return projectRepository.getAllEmployeeProjects(employeeId);
     }
 
+    // done
     @Transactional(readOnly = true)
-    public List<Task> getAllEmployeeTasksById(Long employeeId) {
-        return null;
+    public List<Task> getAllEmployeeTasks(Long employeeId) {
+        return taskRepository.getAllEmployeeTasks(employeeId);
     }
 
+    // done
     @Transactional(readOnly = true)
     public List<Task> getAllEmployeeTasksByUsername(String username) {
-        return null;
+        return taskRepository.getAllEmployeeTasksByUsername(username);
     }
 
     @Transactional(readOnly = true)
@@ -82,21 +91,5 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(Long employeeId) {
         LOG.debug("");
-    }
-
-
-    // ------------------- old --------------------------
-    // crud
-    public Employee addEmployee(Employee employee) {
-        return employeeRepository.saveAndFlush(employee);
-    }
-
-
-    public Employee editEmployee(Employee employee) {
-        return employeeRepository.saveAndFlush(employee);
-    }
-
-    public void OLDdeleteEmployee(long employeeId) {
-        employeeRepository.deleteById(employeeId);
     }
 }
