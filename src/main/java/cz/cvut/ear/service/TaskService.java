@@ -9,10 +9,12 @@ import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.TaskPriority;
 import cz.cvut.ear.model.enums.TaskStatus;
+import cz.cvut.ear.model.enums.SprintStatus;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +40,11 @@ public class TaskService {
         if (sprint != null) {
             Sprint existingSprint = sprintRepository.findById(sprint.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Sprint not found with ID: " + sprint.getId()));
+
+            if (existingSprint.getSprintStatus() == SprintStatus.CLOSED) {
+                throw new IllegalStateException("Cannot add task to a closed sprint.");
+            }
+
             existingSprint.getTasksInSprint().add(task);
             sprintRepository.save(existingSprint);
         }
@@ -98,6 +105,11 @@ public class TaskService {
     public Task setStoryPoints(long taskId, int storyPoints) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found"));
+
+        if (storyPoints < 0) {
+            throw new IllegalArgumentException("Story points must not be negative.");
+        }
+
         task.setTaskPoints(storyPoints);
         taskRepository.save(task);
         return task;
@@ -121,12 +133,20 @@ public class TaskService {
         return taskRepository.findByTaskPriority(taskPriority);
     }
 
+    public List<Task> showByAssigneeUsernameAndTaskStatus(String username, TaskStatus taskStatus) {
+        return taskRepository.findByAssigneeUsernameAndTaskStatus(username, taskStatus);
+    }
+
 
     public void moveToAnotherSprint(long sprintId, long taskId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found"));
         Sprint newSprint = sprintRepository.findById(sprintId)
                 .orElseThrow(() -> new EntityNotFoundException("Sprint not found"));
+
+        if (newSprint.getSprintStatus() == SprintStatus.CLOSED) {
+            throw new IllegalStateException("Cannot move task to a closed sprint.");
+        }
 
         if (task.getSprint() != null && task.getSprint().equals(newSprint)) {
             throw new IllegalArgumentException("Task is already in the specified sprint");
@@ -141,5 +161,17 @@ public class TaskService {
 
         newSprint.setTasksInSprint(tasksInSprint);
         sprintRepository.save(newSprint);
+    }
+    public List<Task> showForAssigneeOpenTasks(Employee assignee){
+        return taskRepository.findByOpenTasksForAssignee(assignee);
+    }
+
+    public List<Task> showOverdueOpenTasks(){
+        return taskRepository.findOverdueOpenTasks();
+    }
+
+    public List<Task> showTasksDueInNextNDays(int numberOfDays){
+        LocalDateTime endDate = LocalDateTime.now().plusDays(numberOfDays);
+        return taskRepository.findTasksDueInNextNDays(endDate);
     }
 }

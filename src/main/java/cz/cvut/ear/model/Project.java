@@ -29,10 +29,10 @@ public class Project extends AbstractEntity implements Serializable {
     @JoinColumn(name="CURRENT_SPRINT_ID")
     private Sprint currentSprint;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<Sprint> sprintsInProject;
 
-    @ManyToMany(mappedBy = "userProjects")
+    @ManyToMany(mappedBy = "userProjects", cascade = CascadeType.PERSIST)
     private Set<Employee> usersInProject;
 
     private String description;

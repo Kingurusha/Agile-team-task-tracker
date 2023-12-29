@@ -5,6 +5,7 @@ import cz.cvut.ear.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 // TODO: delete class? or use as basic?
@@ -40,5 +41,18 @@ public class BasicEmployeeService {
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public List<Employee> showEmployeesByProjectId(Long projectId) {
+        return employeeRepository.findEmployeesByProjectId(projectId);
+    }
+
+    public List<Employee> showEmployeesWithOverdueTasks() {
+        return employeeRepository.findEmployeesWithOverdueTasks();
+        // имя сотрудника
+    }
+
+    public List<Employee> showEmployeesInProjectsDuringDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return employeeRepository.findEmployeesInProjectsDuringDateRange(startDate, endDate);
     }
 }

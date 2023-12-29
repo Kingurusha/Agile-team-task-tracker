@@ -25,7 +25,8 @@ public abstract class Employee extends AbstractEntity {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "assignee")
+    @OneToMany(mappedBy = "assignee", cascade = CascadeType.PERSIST)
+    @OrderBy("taskStatus DESC")
     private Set<Task> userTasks;
 
     @ManyToMany

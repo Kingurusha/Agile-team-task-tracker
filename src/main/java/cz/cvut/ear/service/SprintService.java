@@ -8,15 +8,14 @@ import cz.cvut.ear.helpers.validators.SprintValidator;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
+import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.model.enums.SprintStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SprintService {
@@ -119,9 +118,26 @@ public class SprintService {
         SprintValidator.validateCreate(sprint);
 
         Project project = sprint.getProject();
+
+        if (project.getProjectStatus() == ProjectStatus.CLOSED) {
+            throw new IllegalStateException("Cannot create sprint for a closed project.");
+        }
+
+        if (project.getSprintsInProject().stream().anyMatch(existingSprint -> Objects.equals(existingSprint.getOrdinalNumberInProject(), sprint.getOrdinalNumberInProject()))) {
+            throw new IllegalStateException("Sprint number must be unique within the project.");
+        }
+
         project.getSprintsInProject().add(sprint);
 
         sprintRepository.save(sprint);
         projectRepository.save(project);
+    }
+
+    public List<Sprint> showSprintsByGoalContainingIgnoreCase(String keyword) {
+        return sprintRepository.findSprintsByGoalContainingIgnoreCase(keyword);
+    }
+
+    public List<Sprint> showSprintsByStartDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate) {
+        return sprintRepository.findSprintsByStartDateTimeBetween(startDate, endDate);
     }
 }
