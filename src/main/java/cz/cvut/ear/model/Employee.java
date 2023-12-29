@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "agile_user/employee")
 @Data
 public class Employee extends AbstractEntity implements Serializable {
     @Column(nullable = false)

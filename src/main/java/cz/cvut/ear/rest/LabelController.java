@@ -42,7 +42,7 @@ public class LabelController {
     }
 
     // get label with concrete name
-    @GetMapping(value = "/{labelName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/name/{labelName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Label getLabelByName(@PathVariable String labelName) {
         // todo: validation
         return labelService.getLabelByName(labelName);
