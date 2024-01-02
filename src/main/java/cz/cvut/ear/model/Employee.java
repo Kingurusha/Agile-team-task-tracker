@@ -26,7 +26,8 @@ public class Employee extends AbstractEntity implements Serializable {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "assignee")
+    @OneToMany(mappedBy = "assignee", cascade = CascadeType.PERSIST)
+    @OrderBy("taskStatus DESC")
     private Set<Task> userTasks;
 
     @ManyToMany

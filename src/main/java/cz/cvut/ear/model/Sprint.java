@@ -29,6 +29,7 @@ public class Sprint extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private Integer ordinalNumberInProject;
 
-    @OneToMany(mappedBy = "sprint")
+    @OneToMany(mappedBy = "sprint", cascade = CascadeType.PERSIST)
+    @OrderBy("taskPriority DESC")
     private Set<Task> tasksInSprint;
-}
+    }
