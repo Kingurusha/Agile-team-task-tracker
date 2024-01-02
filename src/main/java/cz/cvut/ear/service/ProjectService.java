@@ -1,14 +1,13 @@
 package cz.cvut.ear.service;
 
-import cz.cvut.ear.model.Task;
-import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Sprint;
+import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.model.enums.SprintStatus;
+import cz.cvut.ear.repository.ProjectRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.PushBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

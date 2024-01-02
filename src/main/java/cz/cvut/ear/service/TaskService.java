@@ -1,14 +1,13 @@
 package cz.cvut.ear.service;
 
+import cz.cvut.ear.model.Employee;
+import cz.cvut.ear.model.Sprint;
+import cz.cvut.ear.model.Task;
+import cz.cvut.ear.model.enums.TaskStatus;
 import cz.cvut.ear.repository.EmployeeRepository;
 import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.SprintRepository;
 import cz.cvut.ear.repository.TaskRepository;
-import cz.cvut.ear.model.Employee;
-import cz.cvut.ear.model.Sprint;
-import cz.cvut.ear.model.Task;
-import cz.cvut.ear.model.enums.TaskPriority;
-import cz.cvut.ear.model.enums.TaskStatus;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,7 +143,8 @@ public class TaskService {
     }
 
     public List<Task> showTasksByUsername(String username) {
-        return taskRepository.findByAssigneeUsername(username);
+        return null;
+        //return taskRepository.findByAssigneeUsername(username);
     }
 
     // partial update
