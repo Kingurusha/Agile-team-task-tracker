@@ -1,4 +1,4 @@
-package cz.cvut.ear.helpers.validators;
+package cz.cvut.ear.helper.validator;
 
 import cz.cvut.ear.model.Sprint;
 import org.springframework.stereotype.Component;
