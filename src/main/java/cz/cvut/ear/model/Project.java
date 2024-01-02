@@ -2,18 +2,14 @@ package cz.cvut.ear.model;
 
 import cz.cvut.ear.model.enums.ProjectStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class Project extends AbstractEntity implements Serializable {
     @Column(nullable = false, unique = true)
     private String projectName;
@@ -22,8 +18,8 @@ public class Project extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private ProjectStatus projectStatus;
 
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @OneToOne
     @JoinColumn(name="CURRENT_SPRINT_ID")

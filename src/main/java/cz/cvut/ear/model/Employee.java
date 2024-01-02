@@ -1,26 +1,27 @@
 package cz.cvut.ear.model;
 
+import cz.cvut.ear.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "agile_user/employee")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "EMPLOYEE_TYPE")
-public abstract class Employee extends AbstractEntity {
+@Data
+public class Employee extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String surname;
     @Column(unique = true, nullable = false)
     private String username;
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @Column(unique = true)
     private String email;

@@ -6,8 +6,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 
 @MappedSuperclass
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public abstract class AbstractEntity {

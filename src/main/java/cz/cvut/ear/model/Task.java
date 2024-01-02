@@ -6,15 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class Task extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private String taskName;
@@ -34,7 +31,7 @@ public class Task extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private LocalDateTime lastUpdateDate;
 
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID")
@@ -53,6 +50,7 @@ public class Task extends AbstractEntity implements Serializable {
     private Sprint sprint;
 
     @ManyToMany
+    @OrderBy("labelName")
     @JoinTable(
             name = "TASK_LABEL",
             joinColumns = @JoinColumn(name = "TASK_ID"),

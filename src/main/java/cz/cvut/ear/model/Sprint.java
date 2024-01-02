@@ -2,23 +2,19 @@ package cz.cvut.ear.model;
 
 import cz.cvut.ear.model.enums.SprintStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class Sprint extends AbstractEntity implements Serializable {
 
-    private LocalDateTime startDateTime;
+    private LocalDate startDate;
 
-    private LocalDateTime endDateTime;
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
