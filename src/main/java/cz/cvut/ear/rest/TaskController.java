@@ -2,36 +2,41 @@ package cz.cvut.ear.rest;
 
 import cz.cvut.ear.helper.RestUtils;
 import cz.cvut.ear.helper.validator.TaskValidator;
-import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.service.TaskService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
+@PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
 @RequestMapping("/api/tasks")
 public class TaskController {
+    private final TaskService taskService;
+
+
     @Autowired
-    private TaskService taskService;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
 
     // get task by concrete id
-    // all
     @GetMapping(value = "/{taskId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Task getTaskById(@PathVariable Long taskId) {
+        // todo: validation
         return taskService.getTaskById(taskId);
     }
 
+
+
     // create new task
-    // all
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createTask(@RequestBody Task task) {
         TaskValidator.validateCreate(task);
@@ -41,7 +46,7 @@ public class TaskController {
     }
 
     // update the whole task
-    // all
+    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTask(@RequestBody Task task) {
@@ -50,25 +55,25 @@ public class TaskController {
     }
 
     // update some parts of task
-    // all/admin depends on part
-    @RequestMapping(value = "/{taskId}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> partialTaskUpdate(@PathVariable Long taskId,
-                                                  @RequestBody Map<String, Object> updates) {
+    @PatchMapping(value = "/{taskId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void partialTaskUpdate(@PathVariable Long taskId,
+                                  @RequestBody Map<String, Object> updates) {
         TaskValidator.validatePartialUpdate(taskId, updates);
         taskService.partialTaskUpdate(taskId, updates);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     // delete the whole task
-    // admin
+    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
     @DeleteMapping(value = "/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long taskId) {
         TaskValidator.validateDelete(taskId);
         taskService.deleteTask(taskId);
     }
 
     // delete employee from participants
-    // admin
+    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
     @DeleteMapping(value = "/{taskId}/participants/{employeeId}")
     public void deleteEmployeeFromParticipants(@PathVariable Long taskId,
                                                @PathVariable Long employeeId) {
@@ -77,8 +82,8 @@ public class TaskController {
     }
 
     // delete employee from task assignee
-    // all
     @DeleteMapping(value = "/{taskId}/assignee/{employeeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployeeFromAssignee(@PathVariable Long taskId,
                                            @PathVariable Long employeeId) {
         TaskValidator.validateAssigneeDelete(taskId, employeeId);
@@ -86,8 +91,8 @@ public class TaskController {
     }
 
     // delete label from task
-    // all
     @DeleteMapping(value = "/{taskId}/labels/{labelId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabelFromTask(@PathVariable Long taskId,
                                     @PathVariable Long labelId) {
         TaskValidator.validateLabelDelete(taskId, labelId);

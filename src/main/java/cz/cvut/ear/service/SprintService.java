@@ -1,5 +1,7 @@
 package cz.cvut.ear.service;
 
+import cz.cvut.ear.model.Task;
+import cz.cvut.ear.model.enums.TaskPriority;
 import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.SprintRepository;
 import cz.cvut.ear.repository.TaskRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,6 +41,16 @@ public class SprintService {
     @Transactional(readOnly = true)
     public Sprint getSprintById(Long sprintId) {
         return sprintRepository.findById(sprintId).get();
+    }
+
+    @Transactional(readOnly = true)
+    public Sprint getSprintByOrdinalNumberInProject(Long projectId, Integer sprintOrdinalNumber) {
+        return null;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Task> getTasksInSprintByPriority(Long sprintId, TaskPriority taskPriority) {
+        return null;
     }
 
     // done
@@ -72,12 +85,12 @@ public class SprintService {
 
     @Transactional
     public void updateSprint(Sprint sprint) {
-
+        LOG.debug("");
     }
 
     @Transactional
     public void partialSprintUpdate(Long sprintId, Map<String, Object> updates) {
-
+        LOG.debug("");
     }
 
 

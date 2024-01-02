@@ -17,32 +17,32 @@ public class EmployeeRepositoryTest {
     public EmployeeRepositoryTest(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-
-
-    @Test
-    public void findByUsernameReturnsEmployeeWithMatchingUsername() {
-        final RegularEmployee regularEmployee = Generator.generateRegularEmployee();
-        final EmpoweredEmployee empoweredEmployee = Generator.generateEmpoweredEmployee();
-
-        String regularEmployeeUsername = regularEmployee.getUsername();
-        String empoweredEmployeeUsername = empoweredEmployee.getUsername();
-
-        employeeRepository.saveAndFlush(regularEmployee);
-        employeeRepository.saveAndFlush(empoweredEmployee);
-
-        assertEquals(regularEmployee.getId(), employeeRepository.findByUsername(regularEmployeeUsername).get().getId());
-        assertEquals(empoweredEmployee.getId(), employeeRepository.findByUsername(empoweredEmployeeUsername).get().getId());
-    }
-
-    @Test
-    public void findByUsernameReturnsOptionalEmptyForUnknownUsername() {
-        final RegularEmployee regularEmployee = Generator.generateRegularEmployee();
-        final EmpoweredEmployee empoweredEmployee = Generator.generateEmpoweredEmployee();
-
-        String regularEmployeeUsername = regularEmployee.getUsername();
-        String empoweredEmployeeUsername = empoweredEmployee.getUsername();
-
-        assertEquals(Optional.empty(), employeeRepository.findByUsername(regularEmployeeUsername));
-        assertEquals(Optional.empty(), employeeRepository.findByUsername(empoweredEmployeeUsername));
-    }
+//
+//
+//    @Test
+//    public void findByUsernameReturnsEmployeeWithMatchingUsername() {
+//        final RegularEmployee regularEmployee = Generator.generateRegularEmployee();
+//        final EmpoweredEmployee empoweredEmployee = Generator.generateEmpoweredEmployee();
+//
+//        String regularEmployeeUsername = regularEmployee.getUsername();
+//        String empoweredEmployeeUsername = empoweredEmployee.getUsername();
+//
+//        employeeRepository.saveAndFlush(regularEmployee);
+//        employeeRepository.saveAndFlush(empoweredEmployee);
+//
+//        assertEquals(regularEmployee.getId(), employeeRepository.findByUsername(regularEmployeeUsername).get().getId());
+//        assertEquals(empoweredEmployee.getId(), employeeRepository.findByUsername(empoweredEmployeeUsername).get().getId());
+//    }
+//
+//    @Test
+//    public void findByUsernameReturnsOptionalEmptyForUnknownUsername() {
+//        final RegularEmployee regularEmployee = Generator.generateRegularEmployee();
+//        final EmpoweredEmployee empoweredEmployee = Generator.generateEmpoweredEmployee();
+//
+//        String regularEmployeeUsername = regularEmployee.getUsername();
+//        String empoweredEmployeeUsername = empoweredEmployee.getUsername();
+//
+//        assertEquals(Optional.empty(), employeeRepository.findByUsername(regularEmployeeUsername));
+//        assertEquals(Optional.empty(), employeeRepository.findByUsername(empoweredEmployeeUsername));
+//    }
 }

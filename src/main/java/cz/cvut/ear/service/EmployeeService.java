@@ -1,5 +1,6 @@
 package cz.cvut.ear.service;
 
+import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.repository.EmployeeRepository;
 import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.TaskRepository;
@@ -31,6 +32,13 @@ public class EmployeeService {
         this.projectRepository = projectRepository;
     }
 
+    public List<Project> getAllCurrentEmployeeProjects() {
+        return null;
+    }
+
+    public List<Project> getAllCurrentEmployeeProjectsByStatus(ProjectStatus status) {
+        return null;
+    }
 
     // done
     @Transactional(readOnly = true)
