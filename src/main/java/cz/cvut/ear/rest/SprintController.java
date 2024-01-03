@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,6 +33,21 @@ public class SprintController {
     public Sprint getSprintById(@PathVariable Long sprintId) {
         // todo: validation
         return sprintService.getSprintById(sprintId);
+    }
+
+    // get all sprints where goal contains key word
+    // done
+    @GetMapping(value = "/goal/{goalKeyWord}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Sprint> getAllSprintsWithGoalKeyWord(@PathVariable String goalKeyWord) {
+        return sprintService.getAllSprintsWithGoalKeyWord(goalKeyWord);
+    }
+
+    // get sprints that were started between two dates
+    @GetMapping(value = "/between/first-date/{firstDate}/second-date/{secondDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Sprint> getSprintsByStartDateBetween(@PathVariable LocalDate firstDate,
+                                                     @PathVariable LocalDate secondDate) {
+        // todo: validation
+        return sprintService.getSprintsByStartDateBetween(firstDate, secondDate);
     }
 
     // create new sprint

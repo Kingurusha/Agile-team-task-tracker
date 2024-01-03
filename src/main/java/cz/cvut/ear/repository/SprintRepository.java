@@ -14,8 +14,8 @@ public interface SprintRepository extends BaseRepository<Sprint, Long> {
     @Query("SELECT s FROM Sprint s WHERE LOWER(s.goal) LIKE LOWER(:keyword)")
     List<Sprint> findSprintsByGoalKeyword(@Param("keyword") String keyword);
 
-    @Query("SELECT s FROM Sprint s WHERE s.startDate BETWEEN :startDate AND :endDate")
-    List<Sprint> findSprintsByStartDateBetween(@Param("startDate") LocalDate startDate,
-                                               @Param("endDate") LocalDate endDate
+    @Query("SELECT s FROM Sprint s WHERE s.startDate BETWEEN :firstDate AND :secondDate")
+    List<Sprint> findSprintsByStartDateBetween(@Param("startDate") LocalDate firstDate,
+                                               @Param("endDate") LocalDate secondDate
     );
 }

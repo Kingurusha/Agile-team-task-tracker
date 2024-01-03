@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -116,7 +117,7 @@ public class ProjectController {
     public List<Task> getAllTasksInSprint(@PathVariable Long projectId,
                                           @PathVariable Long sprintId) {
         // todo: validation
-        return projectService.getAllTasksInSprint(projectId, sprintId);
+        return projectService.getAllTasksInSprint(sprintId);
     }
 
     // get tasks in sprint with concrete priority
@@ -126,6 +127,13 @@ public class ProjectController {
                                                  @PathVariable TaskPriority taskPriority) {
         // todo: validation
         return sprintService.getTasksInSprintByPriority(sprintId, taskPriority);
+    }
+
+    // get all projects that was active in date
+    @GetMapping(value = "/active/date/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Project> getAllActiveProjectsInDate(@PathVariable LocalDate date) {
+        // todo: validation
+        return projectService.getAllActiveProjectsInDate(date);
     }
 
     // create new project
