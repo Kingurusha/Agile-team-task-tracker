@@ -1,4 +1,5 @@
 package cz.cvut.ear.security;
+//public class AuthenticationSuccess {}
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

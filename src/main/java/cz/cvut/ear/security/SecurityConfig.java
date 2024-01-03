@@ -1,4 +1,5 @@
 package cz.cvut.ear.security;
+//public class SecurityConfig {}
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,5 @@
 package cz.cvut.ear.security;
+//public class LoginStatus {}
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

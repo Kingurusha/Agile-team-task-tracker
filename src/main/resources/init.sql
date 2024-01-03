@@ -1,1 +1,0 @@
-INSERT INTO labels (id, labelName) VALUES (4, 'Design')

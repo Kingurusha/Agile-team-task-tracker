@@ -12,5 +12,5 @@ public interface ProjectRepository extends BaseRepository<Project, Long>, Projec
     Optional<Project> findByProjectName(String projectName);
 
     @Query("SELECT p FROM Project p WHERE p.startDate <= :date AND p.endDate >= :date")
-    List<Project> findActiveProjectsByDate(@Param("dateTime") LocalDate date);
+    List<Project> findActiveProjectsByDate(@Param("date") LocalDate date);
 }
