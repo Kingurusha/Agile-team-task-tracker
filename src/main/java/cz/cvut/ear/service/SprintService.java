@@ -110,27 +110,27 @@ public class SprintService {
 
     // ------------------- old --------------------------
 
-    public void startSprintById(Long sprintId) {
-        Sprint sprint = sprintRepository.findById(sprintId)
-                .orElseThrow(() -> NoSuchEntityException.create("Sprint" , sprintId));
-        baseStartSprint(sprint);
-    }
-
-    public void startSprintByOrdinalNumber(Long projectId, Integer sprintOrdinalNumberInProject) {
-        Sprint sprint = findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
-        baseStartSprint(sprint);
-    }
-
-    public void endSprintById(Long sprintId) {
-        Sprint sprint = sprintRepository.findById(sprintId)
-                .orElseThrow(() -> NoSuchEntityException.create("Sprint" , sprintId));
-        baseEndSprint(sprint);
-    }
-
-    public void endSprintByOrdinalNumber(Long projectId, Integer sprintOrdinalNumberInProject) {
-        Sprint sprint = findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
-        baseEndSprint(sprint);
-    }
+//    public void startSprintById(Long sprintId) {
+//        Sprint sprint = sprintRepository.findById(sprintId)
+//                .orElseThrow(() -> NoSuchEntityException.create("Sprint" , sprintId));
+//        baseStartSprint(sprint);
+//    }
+//
+//    public void startSprintByOrdinalNumber(Long projectId, Integer sprintOrdinalNumberInProject) {
+//        Sprint sprint = findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
+//        baseStartSprint(sprint);
+//    }
+//
+//    public void endSprintById(Long sprintId) {
+//        Sprint sprint = sprintRepository.findById(sprintId)
+//                .orElseThrow(() -> NoSuchEntityException.create("Sprint" , sprintId));
+//        baseEndSprint(sprint);
+//    }
+//
+//    public void endSprintByOrdinalNumber(Long projectId, Integer sprintOrdinalNumberInProject) {
+//        Sprint sprint = findByOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
+//        baseEndSprint(sprint);
+//    }
 
     /**
      * Basic logic for sprint starting
@@ -168,15 +168,15 @@ public class SprintService {
         projectRepository.save(project);
     }
 
-    @Transactional(readOnly = true)
-    public Sprint findByOrdinalNumberInProject(Long projectId, Integer sprintOrdinalNumberInProject) {
-        Optional<Sprint> sprintOptional = sprintRepository.findByProjectIdAndOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
-        if (sprintOptional.isEmpty()) {
-            throw new NoSuchEntityException("In the project with the id " + projectId +
-                    " was not found sprint with ordinal number " + sprintOrdinalNumberInProject);
-        }
-        return sprintOptional.get();
-    }
+//    @Transactional(readOnly = true)
+//    public Sprint findByOrdinalNumberInProject(Long projectId, Integer sprintOrdinalNumberInProject) {
+//        Optional<Sprint> sprintOptional = sprintRepository.findByProjectIdAndOrdinalNumberInProject(projectId, sprintOrdinalNumberInProject);
+//        if (sprintOptional.isEmpty()) {
+//            throw new NoSuchEntityException("In the project with the id " + projectId +
+//                    " was not found sprint with ordinal number " + sprintOrdinalNumberInProject);
+//        }
+//        return sprintOptional.get();
+//    }
 
 //    /**
 //     * Delete the sprint and all related tasks from the tracking system
