@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,21 @@ public class EmployeeController {
                                                              @PathVariable TaskStatus taskStatus) {
         // todo: validation
         return employeeService.getAllEmployeeTasksByUsernameAndStatus(username, taskStatus);
+    }
+
+    // get all employees with overdue tasks
+    // done
+    @GetMapping(value = "/tasks/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Employee> getAllEmployeesWithOverdueTasks() {
+        return employeeService.getAllEmployeesWithOverdueTasks();
+    }
+
+    // get all employees enrolled in any project between dates
+    @GetMapping(value = "/enrolled-between/start-date/{startDate}/end-date/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Employee> getEmployeesEnrolledInProjectsInDateRange(@PathVariable LocalDate startDate,
+                                                                    @PathVariable LocalDate endDate) {
+        // todo: validation
+        return employeeService.getEmployeesEnrolledInProjectsInDateRange(startDate, endDate);
     }
 
     // register new employee

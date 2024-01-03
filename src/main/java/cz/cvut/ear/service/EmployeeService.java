@@ -11,9 +11,11 @@ import cz.cvut.ear.model.enums.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ public class EmployeeService {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
     }
+
 
     public List<Project> getAllCurrentEmployeeProjects() {
         return null;
@@ -76,9 +79,22 @@ public class EmployeeService {
         return taskRepository.getAllEmployeeTasksByUsername(username);
     }
 
+    // done
     @Transactional(readOnly = true)
     public List<Task> getAllEmployeeTasksByUsernameAndStatus(String username, TaskStatus taskStatus) {
-        return null;
+        return taskRepository.findByAssigneeUsernameAndTaskStatus(username, taskStatus);
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Employee> getAllEmployeesWithOverdueTasks() {
+        return employeeRepository.findEmployeesWithOverdueTasks();
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Employee> getEmployeesEnrolledInProjectsInDateRange(LocalDate startDate, LocalDate endDate) {
+        return employeeRepository.findEmployeesEnrolledInProjectsInDateRange(startDate, endDate);
     }
 
     @Transactional

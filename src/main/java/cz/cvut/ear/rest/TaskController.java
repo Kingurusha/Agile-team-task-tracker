@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,7 +36,19 @@ public class TaskController {
         return taskService.getTaskById(taskId);
     }
 
+    // get all overdue tasks that still open
+    // done
+    @GetMapping(value = "/overdue-and-open", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Task> getAllOverdueOpenTasks() {
+        return taskService.getAllOverdueOpenTasks();
+    }
 
+    // get tasks that have deadline before the date
+    // done
+    @GetMapping(value = "/due-to/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Task> getTasksDueToDate(@PathVariable LocalDate date) {
+        return taskService.getTasksDueToDate(date);
+    }
 
     // create new task
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

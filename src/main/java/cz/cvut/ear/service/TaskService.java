@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,10 +31,23 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
+
     // done
     @Transactional(readOnly = true)
     public Task getTaskById(Long taskId) {
         return taskRepository.findById(taskId).get();
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Task> getAllOverdueOpenTasks() {
+        return taskRepository.findOverdueOpenTasks();
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Task> getTasksDueToDate(LocalDate date) {
+        return taskRepository.findTasksDueToDate(date);
     }
 
     @Transactional
@@ -156,9 +170,9 @@ public class TaskService {
         return task;
     }
 
-    public List<Task> showTasksInSprint(long sprintId) {
-        return taskRepository.findBySprintId(sprintId);
-    }
+//    public List<Task> showTasksInSprint(long sprintId) {
+//        return taskRepository.findBySprintId(sprintId);
+//    }
 
     // partial update
     public void closeTask(long taskId) {

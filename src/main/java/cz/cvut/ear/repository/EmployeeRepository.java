@@ -20,6 +20,6 @@ public interface EmployeeRepository extends BaseRepository<Employee, Long> {
 
     @Query("SELECT DISTINCT e FROM Employee e JOIN e.userProjects p JOIN p.sprintsInProject s " +
             "WHERE s.startDate BETWEEN :startDate AND :endDate")
-    List<Employee> findEmployeesInProjectsDuringDateRange(@Param("startDate") LocalDate startDate,
-                                                          @Param("endDate") LocalDate endDate);
+    List<Employee> findEmployeesEnrolledInProjectsInDateRange(@Param("startDate") LocalDate startDate,
+                                                              @Param("endDate") LocalDate endDate);
 }

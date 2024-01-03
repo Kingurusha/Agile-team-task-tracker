@@ -14,11 +14,11 @@ public interface TaskRepository extends BaseRepository<Task, Long>, TaskReposito
 
     List<Task> findBySprintId(Long sprintId);
 
-    List<Task> findByTaskPriority(TaskPriority taskPriority);
+    List<Task> findBySprintIdAndTaskPriority(Long sprintId, TaskPriority taskPriority);
 
     @Query("SELECT t FROM Task t WHERE t.dueDate < CURRENT_TIMESTAMP AND t.taskStatus != 'CLOSED'")
     List<Task> findOverdueOpenTasks();
 
     @Query("SELECT t FROM Task t WHERE t.dueDate BETWEEN CURRENT_DATE AND :endDate")
-    List<Task> findTasksDueInNextNDays(@Param("endDate") LocalDate endDate);
+    List<Task> findTasksDueToDate(@Param("endDate") LocalDate endDate);
 }

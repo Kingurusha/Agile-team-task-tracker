@@ -13,6 +13,7 @@ import cz.cvut.ear.model.enums.SprintStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,9 +49,22 @@ public class SprintService {
         return null;
     }
 
+    // done
     @Transactional(readOnly = true)
     public List<Task> getTasksInSprintByPriority(Long sprintId, TaskPriority taskPriority) {
-        return null;
+        return taskRepository.findBySprintIdAndTaskPriority(sprintId, taskPriority);
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Sprint> getAllSprintsWithGoalKeyWord(String goalKeyWord) {
+        return sprintRepository.findSprintsByGoalKeyword(goalKeyWord);
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Sprint> getSprintsByStartDateBetween(LocalDate firstDate, LocalDate secondDate) {
+        return sprintRepository.findSprintsByStartDateBetween(firstDate, secondDate);
     }
 
     // done

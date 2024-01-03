@@ -6,7 +6,9 @@ import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.model.enums.SprintStatus;
+import cz.cvut.ear.repository.EmployeeRepository;
 import cz.cvut.ear.repository.ProjectRepository;
+import cz.cvut.ear.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,12 +24,16 @@ import java.util.Set;
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final EmployeeRepository employeeRepository;
+    private final TaskRepository taskRepository;
     private static final Logger LOG = LoggerFactory.getLogger(ProjectService.class);
 
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, EmployeeRepository employeeRepository, TaskRepository taskRepository) {
         this.projectRepository = projectRepository;
+        this.employeeRepository = employeeRepository;
+        this.taskRepository = taskRepository;
     }
 
 
@@ -53,9 +60,10 @@ public class ProjectService {
         return null;
     }
 
+    // done
     @Transactional(readOnly = true)
     public List<Employee> getAllEmployeesInProject(Long projectId) {
-        return null;
+        return employeeRepository.findEmployeesByProjectId(projectId);
     }
 
     @Transactional(readOnly = true)
@@ -69,8 +77,14 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public List<Task> getAllTasksInSprint(Long projectId, Long sprintId) {
-        return null;
+    public List<Task> getAllTasksInSprint(Long sprintId) {
+        return taskRepository.findBySprintId(sprintId);
+    }
+
+    // done
+    @Transactional(readOnly = true)
+    public List<Project> getAllActiveProjectsInDate(LocalDate date) {
+        return projectRepository.findActiveProjectsByDate(date);
     }
 
     @Transactional
