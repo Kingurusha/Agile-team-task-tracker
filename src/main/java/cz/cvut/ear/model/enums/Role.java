@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Role {
-    EMPOWERED("EMPOWERED_EMPLOYEE"), REGULAR("REGULAR_EMPLOYEE");
+    EMPOWERED("ROLE_EMPOWERED"), REGULAR("ROLE_REGULAR");
 
     private final String name;
 

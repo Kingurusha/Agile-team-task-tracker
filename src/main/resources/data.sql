@@ -7,11 +7,11 @@ INSERT INTO Label (label_name) VALUES ('Management');
 INSERT INTO Label (label_name) VALUES ('Coding');
 
 -- Project
-INSERT INTO Project (project_name, project_status) VALUES ('projname1', 'IN_PROGRESS');
 
 -- Employee
--- INSERT INTO Employee (name, surname, username, password, role, email)
--- VALUES ('John', 'Doe', 'john.doe', 'password123', 'REGULAR_EMPLOYEE', 'john.doe@example.com');
+INSERT INTO Employee (name, surname, username, password, role, email)
+VALUES ('John', 'Doe', 'j', '1', 'REGULAR', 'john.doe@example.com');
+
 
 -- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Alice', 'Smith', 'alice.smith', 'alicepass', 'REGULAR_EMPLOYEE', 'alice.smith@example.com');
 -- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Bob', 'Johnson', 'bob.johnson', 'bobpass', 'EMPOWERED_EMPLOYEE', 'bob.johnson@example.com');

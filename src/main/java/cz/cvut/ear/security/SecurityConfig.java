@@ -1,77 +1,59 @@
 package cz.cvut.ear.security;
-public class SecurityConfig {}
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.context.annotation.Profile;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-//import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-//import org.springframework.web.cors.CorsConfiguration;
-//import org.springframework.web.cors.CorsConfigurationSource;
-//import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//
-//import java.util.List;
-//
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity
-//@Profile("!test")
-//public class SecurityConfig {
-//    private final ObjectMapper objectMapper;
-//
-//
-//    public SecurityConfig(ObjectMapper objectMapper) {
-//        this.objectMapper = objectMapper;
-//    }
-//
-//
-//    @Bean
-//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        final AuthenticationSuccess authSuccess = authenticationSuccess();
-//        http.authorizeHttpRequests((auth) -> auth.anyRequest().permitAll())
-//                .exceptionHandling(ehc -> ehc.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(conf -> conf.configurationSource(corsConfigurationSource()))
-//                .headers(customizer -> customizer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-//                .formLogin(fl -> fl.successHandler(authSuccess)
-//                        .failureHandler(authenticationFailureHandler()))
-//                .logout(lgt -> lgt.logoutSuccessHandler(authSuccess));
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    private AuthenticationFailure authenticationFailureHandler() {
-//        return new AuthenticationFailure(objectMapper);
-//    }
-//
-//    private AuthenticationSuccess authenticationSuccess() {
-//        return new AuthenticationSuccess(objectMapper);
-//    }
-//
-//    private CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        // AllowCredentials requires a particular origin configured, * is rejected by the browser
-////        configuration.setAllowCredentials(true);
-////        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-//        configuration.setAllowedOrigins(List.of("*"));
-//        configuration.setAllowedMethods(List.of("*"));
-//        configuration.addExposedHeader(HttpHeaders.LOCATION);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-//}
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+@Profile("!test")
+public class SecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .headers(customizer -> customizer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .authorizeRequests(
+                        auth -> {
+                            try {
+                                auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2/**")).permitAll()
+                                        .anyRequest().authenticated()
+                                        .and()
+                                        .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                )
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults())
+                .build();
+    }
+}
+
+
