@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ROLE_EMPOWERED', 'ROLE_REGULAR')")
 @RequestMapping("/api/labels")
 public class LabelController {
     private final LabelService labelService;
@@ -58,7 +58,7 @@ public class LabelController {
     }
 
     // update the whole label (with cascade change in all dependencies)
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateLabel(@RequestBody Label label) {
@@ -67,7 +67,7 @@ public class LabelController {
     }
 
     // delete the whole label
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @DeleteMapping(value = "/{labelId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabel(@PathVariable Long labelId) {

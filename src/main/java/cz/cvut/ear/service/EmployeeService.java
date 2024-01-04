@@ -1,17 +1,16 @@
 package cz.cvut.ear.service;
 
-import cz.cvut.ear.model.enums.ProjectStatus;
-import cz.cvut.ear.repository.EmployeeRepository;
-import cz.cvut.ear.repository.ProjectRepository;
-import cz.cvut.ear.repository.TaskRepository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Task;
+import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.model.enums.TaskStatus;
+import cz.cvut.ear.repository.EmployeeRepository;
+import cz.cvut.ear.repository.ProjectRepository;
+import cz.cvut.ear.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

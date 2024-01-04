@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ROLE_EMPOWERED', 'ROLE_REGULAR')")
 @RequestMapping("/api/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
@@ -107,7 +107,7 @@ public class EmployeeController {
     }
 
     // register new employee
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> registerEmployee(@RequestBody Employee employee) {
         // todo: validation
@@ -117,7 +117,7 @@ public class EmployeeController {
     }
 
     // update the whole employee information
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateEmployee(@RequestBody Employee employee) {
@@ -135,7 +135,7 @@ public class EmployeeController {
     }
 
     // delete the whole employee
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @DeleteMapping(value = "/{employeeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable Long employeeId) {

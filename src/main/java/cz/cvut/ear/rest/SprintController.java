@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ROLE_EMPOWERED', 'ROLE_REGULAR')")
 @RequestMapping("/api/sprints")
 public class SprintController {
     private final SprintService sprintService;
@@ -51,7 +51,7 @@ public class SprintController {
     }
 
     // create new sprint
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createSprint(@RequestBody Sprint sprint) {
         // todo: validation
@@ -61,7 +61,7 @@ public class SprintController {
     }
 
     // update the whole sprint
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateSprint(@RequestBody Sprint sprint) {

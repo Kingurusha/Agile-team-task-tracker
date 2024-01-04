@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ROLE_EMPOWERED', 'ROLE_REGULAR')")
 @RequestMapping("/api/projects")
 public class ProjectController {
     private final ProjectService projectService;
@@ -137,7 +137,7 @@ public class ProjectController {
     }
 
     // create new project
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createProject(@RequestBody Project project) {
         // todo: validation
@@ -147,7 +147,7 @@ public class ProjectController {
     }
 
     // update the whole project
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProject(@RequestBody Project project) {
@@ -165,7 +165,7 @@ public class ProjectController {
     }
 
     // delete the whole project
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @DeleteMapping(value = "/{projectId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProject(@PathVariable Long projectId) {
@@ -174,7 +174,7 @@ public class ProjectController {
     }
 
     // delete employee from project
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @DeleteMapping(value = "/{projectId}/employees/{employeeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeEmployeeFromProject(@PathVariable Long projectId,

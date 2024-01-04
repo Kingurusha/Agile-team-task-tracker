@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@PreAuthorize("hasAnyRole('EMPOWERED_EMPLOYEE', 'REGULAR_EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ROLE_EMPOWERED', 'ROLE_REGULAR')")
 @RequestMapping("/api/tasks")
 public class TaskController {
     private final TaskService taskService;
@@ -60,7 +60,7 @@ public class TaskController {
     }
 
     // update the whole task
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTask(@RequestBody Task task) {
@@ -78,7 +78,7 @@ public class TaskController {
     }
 
     // delete the whole task
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @DeleteMapping(value = "/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long taskId) {
@@ -87,7 +87,7 @@ public class TaskController {
     }
 
     // delete employee from participants
-    @PreAuthorize("hasRole('EMPOWERED_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @DeleteMapping(value = "/{taskId}/participants/{employeeId}")
     public void deleteEmployeeFromParticipants(@PathVariable Long taskId,
                                                @PathVariable Long employeeId) {

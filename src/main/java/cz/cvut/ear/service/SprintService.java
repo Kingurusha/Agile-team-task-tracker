@@ -1,26 +1,23 @@
 package cz.cvut.ear.service;
 
+import cz.cvut.ear.helper.validator.SprintValidator;
+import cz.cvut.ear.model.Project;
+import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
+import cz.cvut.ear.model.enums.SprintStatus;
 import cz.cvut.ear.model.enums.TaskPriority;
 import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.SprintRepository;
 import cz.cvut.ear.repository.TaskRepository;
-import cz.cvut.ear.exception.NoSuchEntityException;
-import cz.cvut.ear.helper.validator.SprintValidator;
-import cz.cvut.ear.model.Project;
-import cz.cvut.ear.model.Sprint;
-import cz.cvut.ear.model.enums.SprintStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class SprintService {
