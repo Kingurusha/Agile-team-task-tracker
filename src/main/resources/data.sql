@@ -1,39 +1,233 @@
 -- Label
-INSERT INTO Label (label_name) VALUES ('Design');
-INSERT INTO Label (label_name) VALUES ('Debugging');
-INSERT INTO Label (label_name) VALUES ('Creativity');
-INSERT INTO Label (label_name) VALUES ('Refactoring');
-INSERT INTO Label (label_name) VALUES ('Management');
-INSERT INTO Label (label_name) VALUES ('Coding');
+INSERT INTO Label (label_name)
+VALUES ('Design'),
+       ('Debugging'),
+       ('Creativity'),
+       ('Refactoring'),
+       ('Management'),
+       ('Coding');
 
 -- Project
-INSERT INTO Project (project_name, project_status) VALUES ('projname1', 'IN_PROGRESS');
+INSERT INTO Project (project_name, project_status, start_date, end_date, description, current_sprint_id)
+VALUES ('Software Development', 'IN_PROGRESS', '2023-01-01', '2023-12-31',
+        'A project for developing software applications.', SELECT id FROM Sprint WHERE goal = 'Bug Fixes and Performance Optimization'),
+       ('Marketing Campaign', 'IN_PROGRESS', '2023-02-01', '2023-06-30',
+        'A marketing campaign to promote our products.', SELECT id FROM Sprint WHERE goal = 'Develop New Features for Product Enhancement'),
+       ('Customer Support Improvement', 'IN_PROGRESS', '2023-03-01', '2023-09-30',
+        'A project to enhance customer support services.', SELECT id FROM Sprint WHERE goal = 'Implement Security Updates and Bug Fixes'),
+       ('Product Launch', 'IN_PROGRESS', '2023-04-01', '2023-07-31',
+        'A project for launching a new product into the market.', NULL);
 
 -- Employee
--- INSERT INTO Employee (name, surname, username, password, role, email)
--- VALUES ('John', 'Doe', 'john.doe', 'password123', 'REGULAR_EMPLOYEE', 'john.doe@example.com');
-
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Alice', 'Smith', 'alice.smith', 'alicepass', 'REGULAR_EMPLOYEE', 'alice.smith@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Bob', 'Johnson', 'bob.johnson', 'bobpass', 'EMPOWERED_EMPLOYEE', 'bob.johnson@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Emily', 'Davis', 'emily.davis', 'emilypass', 'REGULAR_EMPLOYEE', 'emily.davis@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Michael', 'Brown', 'michael.brown', 'michaelpass', 'EMPOWERED_EMPLOYEE', 'michael.brown@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Sophia', 'Miller', 'sophia.miller', 'sophiapass', 'REGULAR_EMPLOYEE', 'sophia.miller@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Matthew', 'Taylor', 'matthew.taylor', 'matthewpass', 'EMPOWERED_EMPLOYEE', 'matthew.taylor@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Olivia', 'Wilson', 'olivia.wilson', 'oliviapass', 'REGULAR_EMPLOYEE', 'olivia.wilson@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Daniel', 'Moore', 'daniel.moore', 'danielpass', 'REGULAR_EMPLOYEE', 'daniel.moore@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Ava', 'Clark', 'ava.clark', 'avapass', 'REGULAR_EMPLOYEE', 'ava.clark@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('William', 'Lewis', 'william.lewis', 'williampass', 'REGULAR_EMPLOYEE', 'william.lewis@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Ella', 'Hall', 'ella.hall', 'ellapass', 'EMPOWERED_EMPLOYEE', 'ella.hall@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('James', 'Allen', 'james.allen', 'jamespass', 'REGULAR_EMPLOYEE', 'james.allen@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Grace', 'Young', 'grace.young', 'gracepass', 'EMPOWERED_EMPLOYEE', 'grace.young@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Benjamin', 'Hill', 'benjamin.hill', 'benjaminpass', 'REGULAR_EMPLOYEE', 'benjamin.hill@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Chloe', 'Cooper', 'chloe.cooper', 'chloepass', 'REGULAR_EMPLOYEE', 'chloe.cooper@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Logan', 'Ward', 'logan.ward', 'loganpass', 'REGULAR_EMPLOYEE', 'logan.ward@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Lily', 'Baker', 'lily.baker', 'lilypass', 'EMPOWERED_EMPLOYEE', 'lily.baker@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Christopher', 'Fisher', 'christopher.fisher', 'christopherpass', 'REGULAR_EMPLOYEE', 'christopher.fisher@example.com');
--- INSERT INTO Employee (name, surname, username, password, role, email) VALUES ('Emma', 'Wells', 'emma.wells', 'emmapass', 'EMPOWERED_EMPLOYEE', 'emma.wells@example.com');
-
+INSERT INTO Employee (name, surname, username, password, role, email)
+VALUES ('Alice', 'Smith', 'LunaStar', 'q2gfh', 'REGULAR', 'LunaStar@example.com'),
+       ('Benjamin', 'Johnson', 'NeonBolt', 'm8k3a', 'EMPOWERED', 'NeonBolt@example.com'),
+       ('Charlotte', 'Williams', 'CyberJinx', 't7zqb', 'REGULAR', 'CyberJinx@example.com'),
+       ('David', 'Jones', 'QuantumFox', 'p1xra', 'EMPOWERED', 'QuantumFox@example.com'),
+       ('Emily', 'Brown', 'PixelRider', 'a5bhm', 'REGULAR', 'PixelRider@example.com'),
+       ('Felix', 'Davis', 'MysticWisp', 'w9dck', 'EMPOWERED', 'MysticWisp@example.com'),
+       ('Grace', 'Miller', 'NovaFury', 'k6lny', 'REGULAR', 'NovaFury@example.com'),
+       ('Henry', 'Wilson', 'VortexPulse', 's4vjp', 'REGULAR', 'VortexPulse@example.com'),
+       ('Isabella', 'Moore', 'BlazeSpecter', 'y3fdu', 'REGULAR', 'BlazeSpecter@example.com'),
+       ('Jack', 'Taylor', 'EchoRanger', 'y3fdu', 'REGULAR', 'EchoRanger@example.com'),
+       ('Katherine', 'Anderson', 'SwiftShadow', 'x9err', 'EMPOWERED', 'SwiftShadow@example.com'),
+       ('Liam', 'Thomas', 'SolarFlare', 'c2tyu', 'REGULAR', 'SolarFlare@example.com'),
+       ('Mia', 'Jackson', 'ZenithRider', 'v6inr', 'EMPOWERED', 'ZenithRider@example.com'),
+       ('Nathan', 'White', 'NexusGlider', 'b4ahk', 'REGULAR', 'NexusGlider@example.com'),
+       ('Olivia', 'Harris', 'StormHaven', 'r5kfi', 'REGULAR', 'StormHaven@example.com'),
+       ('Peter', 'Martin', 'FrostByte', 'z8lco', 'REGULAR', 'FrostByte@example.com'),
+       ('Quinn', 'Thompson', 'AeroViper', 'o1qsw', 'EMPOWERED', 'AeroViper@example.com'),
+       ('Rachel', 'Garcia', 'NeonWave', 'o1qsw', 'REGULAR', 'NeonWave@example.com'),
+       ('Samuel', 'Martinez', 'QuantumSpark', 'n3mae', 'EMPOWERED', 'QuantumSpark@example.com'),
+       ('Taylor', 'Robinson', 'EmberPilot', 'i9puy', 'REGULAR', 'EmberPilot@example.com'),
+       ('Ulysses', 'Clark', 'SapphireSwift', 'f4eoi', 'EMPOWERED', 'SapphireSwift@example.com'),
+       ('Victoria', 'Rodriguez', 'ThunderVolt', 'l6jrt', 'REGULAR', 'ThunderVolt@example.com'),
+       ('William', 'Lewis', 'LunarNova', 'd2cxl', 'EMPOWERED', 'LunarNova@example.com'),
+       ('Xander', 'Lee', 'StarStriker', 'g8tbi', 'REGULAR', 'StarStriker@example.com'),
+       ('Yasmine', 'Walker', 'FireFlicker', 'j5svw', 'EMPOWERED', 'FireFlicker@example.com'),
+       ('Zachary', 'Hall', 'EchoBreeze', 'e1uzr', 'REGULAR', 'EchoBreeze@example.com'),
+       ('Ava', 'Hall', 'PlasmaWave', 'q9mpj', 'REGULAR', 'PlasmaWave@example.com'),
+       ('Brian', 'Allen', 'QuantumQuasar', 'a3rff', 'REGULAR', 'QuantumQuasar@example.com'),
+       ('Cassandra', 'Young', 'NeonNebula', 'w7yxe', 'REGULAR', 'NeonNebula@example.com'),
+       ('Daniel', 'Hernandez', 'BlazeBolt', 'k4lnu', 'EMPOWERED', 'BlazeBolt@example.com'),
+       ('Ella', 'King', 'SolarSpectra', 's6vjk', 'REGULAR', 'SolarSpectra@example.com'),
+       ('Franklin', 'Wright', 'MysticMarauder', 'p2xrm', 'EMPOWERED', 'MysticMarauder@example.com'),
+       ('Gabriella', 'Scott', 'VortexVagrant', 'm9k3z', 'REGULAR', 'bVortexVagrant@example.com'),
+       ('Hayden', 'Cooper', 'CyberCipher', 't4zqr', 'REGULAR', 'CyberCipher@example.com'),
+       ('Ivy', 'Green', 'PixelPhantom', 'y7fdd', 'REGULAR', 'PixelPhantom@example.com'),
+       ('Jasper', 'Adams', 'NovaNemesis', 'u1pou', 'EMPOWERED', 'NovaNemesis@example.com'),
+       ('Kaitlyn', 'Baker', 'SwiftSpectacle', 'x6erl', 'REGULAR', 'SwiftSpectacle@example.com'),
+       ('Leo', 'Nelson', 'ZenithZephyr', 'c9tyi', 'EMPOWERED', 'ZenithZephyr@example.com'),
+       ('Lily', 'Carter', 'FrostFury', 'v2inm', 'REGULAR', 'FrostFury@example.com'),
+       ('Mason', 'Mitchell', 'AeroAbyss', 'b6ahc', 'EMPOWERED', 'AeroAbyss@example.com'),
+       ('Nora', 'Perez', 'NexusNebula', 'r3kfi', 'REGULAR', 'NexusNebula@example.com'),
+       ('Owen', 'Roberts', 'StormStrider', 'z5lcy', 'EMPOWERED', 'StormStrider@example.com'),
+       ('Penelope', 'Turner', 'EmberEclipse', 'o8qsa', 'REGULAR', 'EmberEclipse@example.com'),
+       ('Quentin', 'Phillips', 'SapphireShade', 'h1wxx', 'EMPOWERED', 'SapphireShade@example.com'),
+       ('Ruby', 'Campbell', 'ThunderTwist', 'n7maa', 'REGULAR', 'ThunderTwist@example.com'),
+       ('Simon', 'Parker', 'LunarLoom', 'i4pue', 'REGULAR', 'LunarLoom@example.com'),
+       ('Sophia', 'Evans', 'StarStitch', 'f9eou', 'REGULAR', 'StarStitch@example.com'),
+       ('Theo', 'Edwards', 'FireFlame', 'l2jrt', 'REGULAR', 'FireFlame@example.com'),
+       ('Ursula', 'Collins', 'EchoEssence', 'd6cxl', 'EMPOWERED', 'EchoEssence@example.com'),
+       ('Vincent', 'Stewart', 'PlasmaPulse', 'g2tbk', 'REGULAR', 'PlasmaPulse@example.com'),
+       ('Abigail', 'Sanchez', 'QuantumQuiver', 'j8svi', 'EMPOWERED', 'QuantumQuiver@example.com'),
+       ('Benjamin', 'Morris', 'NeonNinja', 'e5uzw', 'REGULAR', 'NeonNinja@example.com'),
+       ('Caleb', 'Rogers', 'BlazeBlitz', 'q1mpo', 'REGULAR', 'BlazeBlitz@example.com'),
+       ('Delilah', 'Reed', 'SolarSurge', 'a8rfd', 'REGULAR', 'SolarSurge@example.com'),
+       ('Elijah', 'Cook', 'MysticMingle', 'w3yxa', 'EMPOWERED', 'MysticMingle@example.com'),
+       ('Oleg', 'Morgan', 'VortexVirtuoso', 'k7lns', 'REGULAR', 'VortexVirtuoso@example.com'),
+       ('Dmitrii', 'Bell', 'CyberCraze', 's5vjp', 'EMPOWERED', 'CyberCraze@example.com');
 
 -- Sprint
+INSERT INTO Sprint (start_date, end_date, sprint_status, goal, project_id, ordinal_number_in_project)
+VALUES ('2023-03-01', '2023-03-15', 'FUTURE', 'Implement Customer Feedback Feature',
+        SELECT id FROM Project WHERE project_name = 'Customer Support Improvement', 1),
+       ('2023-04-01', '2023-04-15', 'FUTURE', 'Bug Fixes and Performance Optimization',
+       SELECT id FROM Project WHERE project_name = 'Marketing Campaign', 1),
+       ('2023-05-01', '2023-05-15', 'FUTURE', 'Prepare Marketing Campaign for Product Launch',
+       SELECT id FROM Project WHERE project_name = 'Customer Support Improvement', 2),
+       ('2023-06-01', '2023-06-15', 'FUTURE', 'Enhance User Interface and User Experience',
+       SELECT id FROM Project WHERE project_name = 'Software Development', 1),
+       ('2023-07-01', '2023-07-15', 'FUTURE', 'Implement Security Updates and Bug Fixes',
+       SELECT id FROM Project WHERE project_name = 'Marketing Campaign', 2),
+       ('2023-08-01', '2023-08-15', 'FUTURE', 'Develop New Features for Product Enhancement',
+       SELECT id FROM Project WHERE project_name = 'Software Development', 2),
+       ('2023-09-01', '2023-09-15', 'FUTURE', 'Implement Performance Improvements',
+       SELECT id FROM Project WHERE project_name = 'Software Development', 3),
+       ('2023-10-01', '2023-10-15', 'FUTURE', 'Enhance Database Schema and Optimization',
+       SELECT id FROM Project WHERE project_name = 'Customer Support Improvement', 3),
+       ('2023-11-01', '2023-11-15', 'FUTURE', 'Develop Integration with Third-Party Services',
+       SELECT id FROM Project WHERE project_name = 'Software Development', 4);
 
 -- Task
+
+INSERT INTO Task (task_name, task_points, task_status, task_priority, creation_date, last_update_date, due_date,
+                  employee_id, sprint_id, description)
+VALUES ('Development of Payment Gateway Integration', 5, 'TO_DO', 'HIGH', '2023-01-15T10:00:00', '2023-01-15T15:30:00',
+        '2023-02-15', SELECT id FROM Employee WHERE name = 'David', SELECT id FROM Sprint WHERE goal = 'Implement Customer Feedback Feature',
+        'Develop user authentication mechanism for the application'),
+       ('Optimization of Search Algorithms', 8, 'IN_PROGRESS', 'MEDIUM', '2023-02-01T09:45:00', '2023-02-05T14:20:00',
+        '2023-03-01', SELECT id FROM Employee WHERE name = 'Henry',
+        SELECT id FROM Sprint WHERE goal = 'Implement Customer Feedback Feature', 'Improve the efficiency of database queries for better performance'),
+       ('Mobile App Development for Financial Tracking', 3, 'RELEASED_TO_PRODUCTION', 'LOW', '2023-02-20T11:30:00', '2023-03-05T16:10:00',
+        '2023-03-15', SELECT id FROM Employee WHERE name = 'Liam',
+        SELECT id FROM Sprint WHERE goal = 'Implement Customer Feedback Feature', 'Create a visually appealing and user-friendly interface'),
+       ('Codebase Refactoring for Performance Enhancement', 5, 'CLOSED', 'MEDIUM', '2023-03-10T14:00:00', '2023-03-12T18:45:00', '2023-04-01',
+           SELECT id FROM Employee WHERE name = 'Peter',
+        SELECT id FROM Sprint WHERE goal = 'Bug Fixes and Performance Optimization', 'Integrate data encryption for enhanced security'),
+       ('Web Application Security Testing', 3, 'TO_DO', 'HIGH', '2023-04-05T09:15:00', '2023-04-05T12:30:00',
+        '2023-04-15', SELECT id FROM Employee WHERE name = 'Taylor',
+        SELECT id FROM Sprint WHERE goal = 'Prepare Marketing Campaign for Product Launch', 'Address and resolve a bug identified in the user authentication process'),
+       ('Implementation of Automated Testing System', 6, 'IN_PROGRESS', 'MEDIUM', '2023-04-20T10:30:00', '2023-04-25T14:45:00',
+        '2023-05-15', SELECT id FROM Employee WHERE name = 'Taylor',
+        SELECT id FROM Sprint WHERE goal = 'Enhance User Interface and User Experience', 'Develop components for the application dashboard'),
+       ('Development of Cross-platform Mobile App', 4, 'RELEASED_TO_PRODUCTION', 'LOW', '2023-05-01T11:00:00', '2023-05-05T16:20:00',
+        '2023-05-20', SELECT id FROM Employee WHERE name = 'Xander',
+        SELECT id FROM Sprint WHERE goal = 'Implement Security Updates and Bug Fixes', 'Perform a security audit to identify and address potential vulnerabilities'),
+       ('Integration with Social Media Platforms', 7, 'CLOSED', 'MEDIUM', '2023-05-10T13:45:00', '2023-05-12T18:30:00',
+        '2023-06-01', SELECT id FROM Employee WHERE name = 'Brian',
+        SELECT id FROM Sprint WHERE goal = 'Implement Security Updates and Bug Fixes', 'Add support for multiple languages in the application'),
+       ('Administrative Panel Development for Content Management', 5, 'TO_DO', 'MEDIUM', '2023-06-05T09:30:00', '2023-06-07T14:15:00', '2023-06-20',
+           SELECT id FROM Employee WHERE name = 'Ella',
+        SELECT id FROM Sprint WHERE goal = 'Implement Security Updates and Bug Fixes', 'Improve performance by optimizing database queries'),
+       ('Integration with Third-Party API for Data Synchronization', 8, 'IN_PROGRESS', 'HIGH', '2023-06-15T10:45:00', '2023-06-20T16:00:00',
+        '2023-07-05', SELECT id FROM Employee WHERE name = 'Gabriella',
+        SELECT id FROM Sprint WHERE goal = 'Develop New Features for Product Enhancement', 'Create designs for enhancing the user interface'),
+       ('Enhancing User Experience through UI/UX Refinement', 6, 'RELEASED_TO_PRODUCTION', 'MEDIUM', '2023-07-01T11:15:00', '2023-07-05T15:30:00',
+        '2023-07-20', SELECT id FROM Employee WHERE name = 'Leo',
+        SELECT id FROM Sprint WHERE goal = 'Develop New Features for Product Enhancement', 'Conduct load testing to assess application performance under heavy traffic'),
+       ('Implementation of Real-time Chat Feature', 7, 'CLOSED', 'LOW', '2023-07-10T12:30:00', '2023-07-12T17:45:00',
+        '2023-08-01', SELECT id FROM Employee WHERE name = 'Owen',
+        SELECT id FROM Sprint WHERE goal = 'Implement Performance Improvements', 'Add functionality for collecting and processing user feedback'),
+       ('Database Schema Optimization for Scalability', 6, 'TO_DO', 'MEDIUM', '2023-08-01T09:00:00', '2023-08-03T14:30:00',
+        '2023-08-15', SELECT id FROM Employee WHERE name = 'Quentin',
+        SELECT id FROM Sprint WHERE goal = 'Implement Performance Improvements', 'Address and fix identified security vulnerabilities'),
+       ('Implementation of Multi-factor Authentication', 8, 'IN_PROGRESS', 'HIGH', '2023-08-10T10:30:00', '2023-08-15T15:45:00',
+        '2023-08-30', SELECT id FROM Employee WHERE name = 'Quentin',
+        SELECT id FROM Sprint WHERE goal = 'Implement Performance Improvements', 'Integrate external API for enhanced functionality'),
+       ('Design and Development of User Dashboard', 5, 'RELEASED_TO_PRODUCTION', 'LOW', '2023-08-20T11:00:00',
+        '2023-08-25T16:15:00', '2023-09-10', SELECT id FROM Employee WHERE name = 'Quentin',
+        SELECT id FROM Sprint WHERE goal = 'Enhance Database Schema and Optimization', 'Create comprehensive documentation for the upcoming release'),
+       ('Integration of Machine Learning Algorithms', 7, 'CLOSED', 'MEDIUM', '2023-09-01T12:15:00', '2023-09-05T17:30:00',
+        '2023-09-20', SELECT id FROM Employee WHERE name = 'Sophia',
+        SELECT id FROM Sprint WHERE goal = 'Enhance Database Schema and Optimization', 'Add a dark mode option for the user interface'),
+       ('Migration to Cloud Infrastructure', 8, 'TO_DO', 'HIGH', '2023-09-10T09:30:00', '2023-09-15T14:45:00', '2023-09-30',
+        SELECT id FROM Employee WHERE name = 'Abigail',
+        SELECT id FROM Sprint WHERE goal = 'Enhance Database Schema and Optimization', 'Improve efficiency by optimizing database queries'),
+       ('Development of Notification System', 6, 'IN_PROGRESS', 'MEDIUM', '2023-09-15T10:45:00', '2023-09-20T15:30:00',
+        '2023-10-05', SELECT id FROM Employee WHERE name = 'Caleb',
+        SELECT id FROM Sprint WHERE goal = 'Develop Integration with Third-Party Services', 'Upgrade user authentication system for better security'),
+       ('Implementation of Version Control System', 7, 'RELEASED_TO_PRODUCTION', 'HIGH', '2023-09-25T11:00:00',
+        '2023-09-30T16:15:00', '2023-10-15', SELECT id FROM Employee WHERE name = 'Elijah',
+        SELECT id FROM Sprint WHERE goal = 'Develop Integration with Third-Party Services', 'Integrate real-time notification system for instant updates'),
+       ('Performance Monitoring and Analytics Integration', 5, 'CLOSED', 'LOW', '2023-10-01T12:30:00', '2023-10-05T17:45:00', '2023-10-20',
+           SELECT id FROM Employee WHERE name = 'Theo',
+        SELECT id FROM Sprint WHERE goal = 'Develop Integration with Third-Party Services', 'Organize and conduct a training session for end-users');
+
+-- Task label
+INSERT INTO Task_label (task_id, label_id)
+VALUES (SELECT id FROM Task WHERE task_name = 'Development of Payment Gateway Integration', SELECT id FROM Label WHERE label_name ='Design'),
+       (SELECT id FROM Task WHERE task_name = 'Optimization of Search Algorithms', SELECT id FROM Label WHERE label_name ='Design'),
+       (SELECT id FROM Task WHERE task_name = 'Mobile App Development for Financial Tracking', SELECT id FROM Label WHERE label_name = 'Design'),
+       (SELECT id FROM Task WHERE task_name = 'Codebase Refactoring for Performance Enhancement', SELECT id FROM Label WHERE label_name = 'Debugging'),
+       (SELECT id FROM Task WHERE task_name = 'Web Application Security Testing', SELECT id FROM Label WHERE label_name = 'Debugging'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Automated Testing System', SELECT id FROM Label WHERE label_name = 'Debugging'),
+       (SELECT id FROM Task WHERE task_name = 'Development of Cross-platform Mobile App', SELECT id FROM Label WHERE label_name = 'Debugging'),
+       (SELECT id FROM Task WHERE task_name = 'Integration with Social Media Platforms', SELECT id FROM Label WHERE label_name = 'Creativity'),
+       (SELECT id FROM Task WHERE task_name = 'Administrative Panel Development for Content Management', SELECT id FROM Label WHERE label_name = 'Creativity'),
+       (SELECT id FROM Task WHERE task_name = 'Integration with Third-Party API for Data Synchronization', SELECT id FROM Label WHERE label_name = 'Creativity'),
+       (SELECT id FROM Task WHERE task_name = 'Enhancing User Experience through UI/UX Refinement', SELECT id FROM Label WHERE label_name = 'Creativity'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Real-time Chat Feature', SELECT id FROM Label WHERE label_name = 'Refactoring'),
+       (SELECT id FROM Task WHERE task_name = 'Database Schema Optimization for Scalability', SELECT id FROM Label WHERE label_name = 'Refactoring'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Multi-factor Authentication', SELECT id FROM Label WHERE label_name = 'Refactoring'),
+       (SELECT id FROM Task WHERE task_name = 'Design and Development of User Dashboard', SELECT id FROM Label WHERE label_name = 'Management'),
+       (SELECT id FROM Task WHERE task_name = 'Integration of Machine Learning Algorithms', SELECT id FROM Label WHERE label_name = 'Management'),
+       (SELECT id FROM Task WHERE task_name = 'Migration to Cloud Infrastructure', SELECT id FROM Label WHERE label_name = 'Management'),
+       (SELECT id FROM Task WHERE task_name = 'Development of Notification System', SELECT id FROM Label WHERE label_name = 'Coding'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Version Control System', SELECT id FROM Label WHERE label_name = 'Coding'),
+       (SELECT id FROM Task WHERE task_name = 'Performance Monitoring and Analytics Integration', SELECT id FROM Label WHERE label_name = 'Coding');
+
+-- Task participants
+INSERT INTO Task_participants (task_id, employee_id)
+VALUES (SELECT id FROM Task WHERE task_name = 'Development of Payment Gateway Integration', SELECT id FROM Employee WHERE name = 'David'),
+       (SELECT id FROM Task WHERE task_name = 'Optimization of Search Algorithms', SELECT id FROM Employee WHERE name = 'Henry'),
+       (SELECT id FROM Task WHERE task_name = 'Mobile App Development for Financial Tracking', SELECT id FROM Employee WHERE name = 'Liam'),
+       (SELECT id FROM Task WHERE task_name = 'Codebase Refactoring for Performance Enhancement', SELECT id FROM Employee WHERE name = 'Peter'),
+       (SELECT id FROM Task WHERE task_name = 'Web Application Security Testing', SELECT id FROM Employee WHERE name = 'Taylor'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Automated Testing System', SELECT id FROM Employee WHERE name = 'Taylor'),
+       (SELECT id FROM Task WHERE task_name = 'Development of Cross-platform Mobile App', SELECT id FROM Employee WHERE name = 'Xander'),
+       (SELECT id FROM Task WHERE task_name = 'Integration with Social Media Platforms', SELECT id FROM Employee WHERE name = 'Brian'),
+       (SELECT id FROM Task WHERE task_name = 'Administrative Panel Development for Content Management', SELECT id FROM Employee WHERE name = 'Ella'),
+       (SELECT id FROM Task WHERE task_name = 'Integration with Third-Party API for Data Synchronization', SELECT id FROM Employee WHERE name = 'Gabriella'),
+       (SELECT id FROM Task WHERE task_name = 'Enhancing User Experience through UI/UX Refinement', SELECT id FROM Employee WHERE name = 'Leo'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Real-time Chat Feature', SELECT id FROM Employee WHERE name = 'Owen'),
+       (SELECT id FROM Task WHERE task_name = 'Database Schema Optimization for Scalability', SELECT id FROM Employee WHERE name = 'Quentin'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Multi-factor Authentication', SELECT id FROM Employee WHERE name = 'Quentin'),
+       (SELECT id FROM Task WHERE task_name = 'Design and Development of User Dashboard', SELECT id FROM Employee WHERE name = 'Quentin'),
+       (SELECT id FROM Task WHERE task_name = 'Integration of Machine Learning Algorithms', SELECT id FROM Employee WHERE name = 'Sophia'),
+       (SELECT id FROM Task WHERE task_name = 'Migration to Cloud Infrastructure', SELECT id FROM Employee WHERE name = 'Abigail'),
+       (SELECT id FROM Task WHERE task_name = 'Development of Notification System', SELECT id FROM Employee WHERE name = 'Caleb'),
+       (SELECT id FROM Task WHERE task_name = 'Implementation of Version Control System', SELECT id FROM Employee WHERE name = 'Elijah'),
+       (SELECT id FROM Task WHERE task_name = 'Performance Monitoring and Analytics Integration', SELECT id FROM Employee WHERE name = 'Theo');
+
+-- User project
+INSERT INTO User_project (user_id, project_id)
+VALUES (SELECT id FROM Employee WHERE name = 'David', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Henry', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Liam', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Peter', SELECT id FROM Project WHERE project_name = 'Marketing Campaign'),
+       (SELECT id FROM Employee WHERE name = 'Taylor', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Taylor', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Xander', SELECT id FROM Project WHERE project_name = 'Marketing Campaign'),
+       (SELECT id FROM Employee WHERE name = 'Brian', SELECT id FROM Project WHERE project_name = 'Marketing Campaign'),
+       (SELECT id FROM Employee WHERE name = 'Ella', SELECT id FROM Project WHERE project_name = 'Marketing Campaign'),
+       (SELECT id FROM Employee WHERE name = 'Gabriella', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Leo', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Owen', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Quentin', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Quentin', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Sophia', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Abigail', SELECT id FROM Project WHERE project_name = 'Customer Support Improvement'),
+       (SELECT id FROM Employee WHERE name = 'Caleb', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Elijah', SELECT id FROM Project WHERE project_name = 'Software Development'),
+       (SELECT id FROM Employee WHERE name = 'Theo', SELECT id FROM Project WHERE project_name = 'Software Development');
