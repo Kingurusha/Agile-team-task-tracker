@@ -9,13 +9,13 @@ VALUES ('Design'),
 
 -- Project
 INSERT INTO Project (project_name, project_status, start_date, end_date, description, current_sprint_id)
-VALUES ('Software Development', 'IN_PROGRESS', '2023-01-01', '2023-12-31',
-        'A project for developing software applications.', SELECT id FROM Sprint WHERE goal = 'Bug Fixes and Performance Optimization'),
-       ('Marketing Campaign', 'IN_PROGRESS', '2023-02-01', '2023-06-30',
-        'A marketing campaign to promote our products.', SELECT id FROM Sprint WHERE goal = 'Develop New Features for Product Enhancement'),
-       ('Customer Support Improvement', 'IN_PROGRESS', '2023-03-01', '2023-09-30',
-        'A project to enhance customer support services.', SELECT id FROM Sprint WHERE goal = 'Implement Security Updates and Bug Fixes'),
-       ('Product Launch', 'IN_PROGRESS', '2023-04-01', '2023-07-31',
+VALUES ('Software Development', 'IN_PROGRESS', '2023-01-01', NULL,
+        'A project for developing software applications.', NULL),
+       ('Marketing Campaign', 'IN_PROGRESS', '2023-02-01', NULL,
+        'A marketing campaign to promote our products.', NULL),
+       ('Customer Support Improvement', 'FUTURE', NULL, NULL,
+        'A project to enhance customer support services.', NULL),
+       ('Product Launch', 'CLOSED', '2021-04-01', '2022-07-31',
         'A project for launching a new product into the market.', NULL);
 
 -- Employee
@@ -80,24 +80,31 @@ VALUES ('Alice', 'Smith', 'LunaStar', 'q2gfh', 'REGULAR', 'LunaStar@example.com'
 
 -- Sprint
 INSERT INTO Sprint (start_date, end_date, sprint_status, goal, project_id, ordinal_number_in_project)
-VALUES ('2023-03-01', '2023-03-15', 'FUTURE', 'Implement Customer Feedback Feature',
+VALUES (NULL, NULL, 'FUTURE', 'Implement Customer Feedback Feature',
         SELECT id FROM Project WHERE project_name = 'Customer Support Improvement', 1),
-       ('2023-04-01', '2023-04-15', 'FUTURE', 'Bug Fixes and Performance Optimization',
+       ('2023-02-01', '2023-04-15', 'CLOSED', 'Bug Fixes and Performance Optimization',
        SELECT id FROM Project WHERE project_name = 'Marketing Campaign', 1),
-       ('2023-05-01', '2023-05-15', 'FUTURE', 'Prepare Marketing Campaign for Product Launch',
+       (NULL, NULL, 'FUTURE', 'Prepare Marketing Campaign for Product Launch',
        SELECT id FROM Project WHERE project_name = 'Customer Support Improvement', 2),
-       ('2023-06-01', '2023-06-15', 'FUTURE', 'Enhance User Interface and User Experience',
+       ('2023-01-01', '2023-02-15', 'CLOSED', 'Enhance User Interface and User Experience',
        SELECT id FROM Project WHERE project_name = 'Software Development', 1),
-       ('2023-07-01', '2023-07-15', 'FUTURE', 'Implement Security Updates and Bug Fixes',
+       ('2023-04-15', NULL, 'IN_PROGRESS', 'Implement Security Updates and Bug Fixes',
        SELECT id FROM Project WHERE project_name = 'Marketing Campaign', 2),
-       ('2023-08-01', '2023-08-15', 'FUTURE', 'Develop New Features for Product Enhancement',
+       ('2023-02-15', '2023-05-28', 'CLOSED', 'Develop New Features for Product Enhancement',
        SELECT id FROM Project WHERE project_name = 'Software Development', 2),
-       ('2023-09-01', '2023-09-15', 'FUTURE', 'Implement Performance Improvements',
+       ('2023-05-28', NULL, 'IN_PROGRESS', 'Implement Performance Improvements',
        SELECT id FROM Project WHERE project_name = 'Software Development', 3),
-       ('2023-10-01', '2023-10-15', 'FUTURE', 'Enhance Database Schema and Optimization',
+       (NULL, NULL, 'FUTURE', 'Enhance Database Schema and Optimization',
        SELECT id FROM Project WHERE project_name = 'Customer Support Improvement', 3),
-       ('2023-11-01', '2023-11-15', 'FUTURE', 'Develop Integration with Third-Party Services',
+       (NULL, NULL, 'FUTURE', 'Develop Integration with Third-Party Services',
        SELECT id FROM Project WHERE project_name = 'Software Development', 4);
+
+-- Update project
+UPDATE Project SET current_sprint_id = (SELECT id FROM Sprint WHERE goal = 'Bug Fixes and Performance Optimization')
+               WHERE id = (SELECT id FROM Project WHERE project_name = 'Software Development');
+UPDATE Project SET current_sprint_id = (SELECT id FROM Sprint WHERE goal = 'Develop New Features for Product Enhancement')
+               WHERE id = (SELECT id FROM Project WHERE project_name = 'Marketing Campaign');
+
 
 -- Task
 
