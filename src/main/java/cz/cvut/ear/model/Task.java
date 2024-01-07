@@ -1,5 +1,8 @@
 package cz.cvut.ear.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.ear.model.enums.TaskPriority;
 import cz.cvut.ear.model.enums.TaskStatus;
 import jakarta.persistence.*;
@@ -35,6 +38,9 @@ public class Task extends AbstractEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID")
+    //@JsonManagedReference
+    //@JsonBackReference
+    @JsonIgnore
     private Employee assignee;
 
     @ManyToMany
@@ -43,10 +49,12 @@ public class Task extends AbstractEntity implements Serializable {
             joinColumns = @JoinColumn(name = "TASK_ID"),
             inverseJoinColumns = @JoinColumn(name = "EMPLOYEE_ID")
     )
+    @JsonIgnore
     private Set<Employee> participants;
 
     @ManyToOne
     @JoinColumn(name = "SPRINT_ID", nullable = false)
+    @JsonIgnore
     private Sprint sprint;
 
     @ManyToMany
@@ -56,6 +64,7 @@ public class Task extends AbstractEntity implements Serializable {
             joinColumns = @JoinColumn(name = "TASK_ID"),
             inverseJoinColumns = @JoinColumn(name = "LABEL_ID")
     )
+    @JsonIgnore
     private Set<Label> labels;
 
     private String description;
