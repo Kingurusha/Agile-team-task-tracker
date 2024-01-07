@@ -1,14 +1,16 @@
 package cz.cvut.ear.service;
 
 import cz.cvut.ear.helper.validator.ProjectValidator;
-import cz.cvut.ear.model.*;
+import cz.cvut.ear.model.Employee;
+import cz.cvut.ear.model.Project;
+import cz.cvut.ear.model.Sprint;
+import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.ProjectStatus;
 import cz.cvut.ear.model.enums.SprintStatus;
 import cz.cvut.ear.repository.EmployeeRepository;
 import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.SprintRepository;
 import cz.cvut.ear.repository.TaskRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 @Service

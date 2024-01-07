@@ -1,12 +1,10 @@
 package cz.cvut.ear.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.ear.model.enums.TaskPriority;
 import cz.cvut.ear.model.enums.TaskStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -38,8 +36,6 @@ public class Task extends AbstractEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID")
-    //@JsonManagedReference
-    //@JsonBackReference
     @JsonIgnore
     private Employee assignee;
 

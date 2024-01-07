@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -26,24 +25,12 @@ public class LabelController {
         this.labelService = labelService;
     }
 
-
-//     get all labels
-//     done
+    // get all labels
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Label> getAllLabels() {
         return labelService.getAllLabels();
     }
 
-//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<Label>> getAllLabels(@RequestParam(required = false) Long id) {
-//        if (id != null) {
-//            Label label = labelService.getLabelById(id);
-//            return ResponseEntity.ok(Collections.singletonList(label));
-//        } else {
-//            List<Label> labels = labelService.getAllLabels();
-//            return ResponseEntity.ok(labels);
-//        }
-//    }
 
     // get label with concrete id
     @GetMapping(value = "/{labelId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -75,7 +62,7 @@ public class LabelController {
 
     // delete the whole label
     @PreAuthorize("hasRole('ROLE_EMPOWERED')")
-    @DeleteMapping(value = "/{labelId}")
+    @DeleteMapping(value = "/d/{labelId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabel(@PathVariable Long labelId) {
         labelService.deleteLabel(labelId);

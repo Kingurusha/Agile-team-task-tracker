@@ -1,11 +1,9 @@
 package cz.cvut.ear.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.ear.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -37,8 +35,6 @@ public class Employee extends AbstractEntity implements Serializable {
 
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.PERSIST)
     @OrderBy("taskStatus DESC")
-    //@JsonBackReference
-    //@JsonManagedReference
     @JsonIgnore
     private Set<Task> userTasks;
 
