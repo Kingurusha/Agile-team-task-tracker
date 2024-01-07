@@ -8,6 +8,7 @@ import cz.cvut.ear.model.enums.TaskStatus;
 import cz.cvut.ear.repository.EmployeeRepository;
 import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.TaskRepository;
+import cz.cvut.ear.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,18 @@ public class EmployeeService {
     }
 
 
+    // done
     public List<Project> getAllCurrentEmployeeProjects() {
-        return null;
+        final Employee currentEmployee = SecurityUtils.getCurrentEmployee();
+        assert currentEmployee != null;
+        return projectRepository.getAllEmployeeProjects(currentEmployee.getId());
     }
 
+    // done
     public List<Project> getAllCurrentEmployeeProjectsByStatus(ProjectStatus status) {
-        return null;
+        final Employee currentEmployee = SecurityUtils.getCurrentEmployee();
+        assert currentEmployee != null;
+        return projectRepository.findProjectsByEmployeeIdAndStatus(currentEmployee.getId(), status);
     }
 
     // done
