@@ -34,7 +34,7 @@ public class EmployeeController {
 
 
     // get current authorized employee
-    // done?
+    // done
     @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee getCurrent(Authentication auth) {
         assert auth.getPrincipal() instanceof EmployeeDetails;
@@ -77,7 +77,7 @@ public class EmployeeController {
     }
 
     // get all employee tasks by employee username
-    @GetMapping(value = "/{username}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/username/{username}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> getAllEmployeeTasksByUsername(@PathVariable String username) {
         // todo: validation
         return employeeService.getAllEmployeeTasksByUsername(username);
