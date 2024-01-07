@@ -3,6 +3,7 @@ package cz.cvut.ear.repository;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Task;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Repository
 public class TaskRepositoryCustomImpl implements TaskRepositoryCustom {
+    @PersistenceContext
     private EntityManager em;
 
 

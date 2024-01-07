@@ -20,8 +20,8 @@ VALUES ('Software Development', 'IN_PROGRESS', '2023-01-01', NULL,
 
 -- Employee
 INSERT INTO Employee (name, surname, username, password, role, email)
-VALUES ('Alice', 'Smith', 'LunaStar', 'q2gfh', 'REGULAR', 'LunaStar@example.com'),
-       ('Benjamin', 'Johnson', 'NeonBolt', 'm8k3a', 'EMPOWERED', 'NeonBolt@example.com'),
+VALUES ('Alice', 'Smith', 'as', '123', 'REGULAR', 'LunaStar@example.com'),
+       ('Benjamin', 'Johnson', 'nb', '123', 'EMPOWERED', 'NeonBolt@example.com'),
        ('Charlotte', 'Williams', 'CyberJinx', 't7zqb', 'REGULAR', 'CyberJinx@example.com'),
        ('David', 'Jones', 'QuantumFox', 'p1xra', 'EMPOWERED', 'QuantumFox@example.com'),
        ('Emily', 'Brown', 'PixelRider', 'a5bhm', 'REGULAR', 'PixelRider@example.com'),
