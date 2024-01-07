@@ -1,5 +1,6 @@
 package cz.cvut.ear.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.ear.model.enums.SprintStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Sprint extends AbstractEntity implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="PROJECT_ID", nullable = false)
+    @JsonIgnore
     private Project project;
 
     @Column(nullable = false)
@@ -31,5 +33,6 @@ public class Sprint extends AbstractEntity implements Serializable {
 
     @OneToMany(mappedBy = "sprint", cascade = CascadeType.PERSIST)
     @OrderBy("taskPriority DESC")
+    @JsonIgnore
     private Set<Task> tasksInSprint;
     }
