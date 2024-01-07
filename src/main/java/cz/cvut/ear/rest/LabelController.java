@@ -62,7 +62,7 @@ public class LabelController {
 
     // delete the whole label
     @PreAuthorize("hasRole('ROLE_EMPOWERED')")
-    @DeleteMapping(value = "/d/{labelId}")
+    @DeleteMapping(value = "/{labelId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabel(@PathVariable Long labelId) {
         labelService.deleteLabel(labelId);

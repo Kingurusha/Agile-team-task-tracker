@@ -17,27 +17,17 @@ public class Generator {
     }
 
 
-//    public static EmpoweredEmployee generateEmpoweredEmployee() {
-//        final EmpoweredEmployee employee = new EmpoweredEmployee();
-//
-//        employee.setName("Name" + randomInt());
-//        employee.setSurname("Surname" + randomInt());
-//        employee.setUsername("Username" + randomInt());
-//        employee.setEmail("Email" + randomInt());
-//
-//        return employee;
-//    }
-//
-//    public static RegularEmployee generateRegularEmployee() {
-//        final RegularEmployee employee = new RegularEmployee();
-//
-//        employee.setName("Name" + randomInt());
-//        employee.setSurname("Surname" + randomInt());
-//        employee.setUsername("Username" + randomInt());
-//        employee.setEmail("Email" + randomInt());
-//
-//        return employee;
-//    }
+    public static Employee generateEmployee() {
+        final Employee employee = new Employee();
+
+        employee.setName("Name" + randomInt());
+        employee.setSurname("Surname" + randomInt());
+        employee.setUsername("Username" + randomInt());
+        employee.setPassword(Integer.toString(randomInt()));
+        employee.setEmail("Email" + randomInt());
+
+        return employee;
+    }
 
     public static Label generateLabel() {
         final Label label = new Label();

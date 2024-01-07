@@ -1,7 +1,6 @@
 package cz.cvut.ear.repository;
 
 import cz.cvut.ear.model.Employee;
-import cz.cvut.ear.model.Project;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.TaskPriority;
 import cz.cvut.ear.model.enums.TaskStatus;
@@ -10,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 public interface TaskRepository extends BaseRepository<Task, Long>, TaskRepositoryCustom {
     List<Task> findByAssigneeUsernameAndTaskStatus(String username, TaskStatus taskStatus);

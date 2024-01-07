@@ -1,7 +1,6 @@
 package cz.cvut.ear.rest;
 
 import cz.cvut.ear.helper.RestUtils;
-import cz.cvut.ear.helper.validator.TaskValidator;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -59,9 +59,9 @@ public class LabelService {
 
     @Transactional
     public void deleteLabel(Long labelId) {
-        //labelValidator.validateLabelDeletion(labelId);
-        //Label label = labelRepository.findById(labelId).get();
+        labelValidator.validateLabelDeletion(labelId);
+        Label label = labelRepository.findById(labelId).get();
         labelRepository.deleteById(labelId);
-        //LOG.debug("Deleted label {}.", label);
+        LOG.debug("Deleted label {}.", label);
     }
 }

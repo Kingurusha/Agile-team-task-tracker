@@ -1,9 +1,7 @@
 package cz.cvut.ear.helper.validator;
 
-
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.repository.EmployeeRepository;
-import cz.cvut.ear.repository.ProjectRepository;
 import cz.cvut.ear.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,16 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeValidator {
     private final EmployeeRepository employeeRepository;
-    private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
 
 
     @Autowired
-    public EmployeeValidator(EmployeeRepository employeeRepository, TaskRepository taskRepository, ProjectRepository projectRepository) {
+    public EmployeeValidator(EmployeeRepository employeeRepository, TaskRepository taskRepository) {
         this.employeeRepository = employeeRepository;
         this.taskRepository = taskRepository;
-        this.projectRepository = projectRepository;
     }
+
     public void validateEmployeeExists(Employee employee) {
         if (employee == null || !employeeRepository.existsById(employee.getId())) {
             throw new IllegalArgumentException("Employee with ID " + employee.getId() + " does not exist.");

@@ -1,7 +1,6 @@
 package cz.cvut.ear.repository;
 
 import cz.cvut.ear.model.Employee;
-import cz.cvut.ear.model.Project;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
