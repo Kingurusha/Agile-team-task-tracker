@@ -32,7 +32,6 @@ public class TaskController {
     // get task by concrete id
     @GetMapping(value = "/{taskId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Task getTaskById(@PathVariable Long taskId) {
-        // todo: validation
         return taskService.getTaskById(taskId);
     }
 
@@ -53,7 +52,6 @@ public class TaskController {
     // create new task
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createTask(@RequestBody Task task) {
-        TaskValidator.validateCreate(task);
         taskService.createTask(task);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", task.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -64,7 +62,6 @@ public class TaskController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTask(@RequestBody Task task) {
-        TaskValidator.validateUpdate(task);
         taskService.updateTask(task);
     }
 
@@ -73,7 +70,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void partialTaskUpdate(@PathVariable Long taskId,
                                   @RequestBody Map<String, Object> updates) {
-        TaskValidator.validatePartialUpdate(taskId, updates);
         taskService.partialTaskUpdate(taskId, updates);
     }
 
@@ -82,7 +78,6 @@ public class TaskController {
     @DeleteMapping(value = "/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long taskId) {
-        TaskValidator.validateDelete(taskId);
         taskService.deleteTask(taskId);
     }
 
@@ -91,7 +86,6 @@ public class TaskController {
     @DeleteMapping(value = "/{taskId}/participants/{employeeId}")
     public void deleteEmployeeFromParticipants(@PathVariable Long taskId,
                                                @PathVariable Long employeeId) {
-        TaskValidator.validateParticipantDelete(taskId, employeeId);
         taskService.deleteEmployeeFromParticipants(taskId, employeeId);
     }
 
@@ -100,7 +94,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployeeFromAssignee(@PathVariable Long taskId,
                                            @PathVariable Long employeeId) {
-        TaskValidator.validateAssigneeDelete(taskId, employeeId);
         taskService.deleteEmployeeFromAssignee(taskId, employeeId);
     }
 
@@ -109,7 +102,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabelFromTask(@PathVariable Long taskId,
                                     @PathVariable Long labelId) {
-        TaskValidator.validateLabelDelete(taskId, labelId);
         taskService.deleteLabelFromTask(taskId, labelId);
     }
 }

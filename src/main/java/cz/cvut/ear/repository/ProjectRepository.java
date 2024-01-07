@@ -1,6 +1,7 @@
 package cz.cvut.ear.repository;
 
 import cz.cvut.ear.model.Project;
+import cz.cvut.ear.model.Sprint;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -13,4 +14,6 @@ public interface ProjectRepository extends BaseRepository<Project, Long>, Projec
 
     @Query("SELECT p FROM Project p WHERE p.startDate <= :date AND p.endDate >= :date")
     List<Project> findActiveProjectsByDate(@Param("date") LocalDate date);
+
+    boolean existsByProjectName(String projectName);
 }

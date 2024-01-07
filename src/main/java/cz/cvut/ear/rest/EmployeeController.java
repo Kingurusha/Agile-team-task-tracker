@@ -44,14 +44,12 @@ public class EmployeeController {
     // get employee by id
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee getEmployeeById(@PathVariable Long employeeId) {
-        // todo: validation
         return employeeService.getEmployeeById(employeeId);
     }
 
     // get employee by username
     @GetMapping(value = "/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee getEmployeeByUsername(@PathVariable String username) {
-        // todo: validation
         return employeeService.getEmployeeByUsername(username);
     }
 
@@ -65,21 +63,18 @@ public class EmployeeController {
     // get all projects belongs to concrete employee
     @GetMapping(value = "/{employeeId}/projects", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Project> getAllEmployeeProjects(@PathVariable Long employeeId) {
-        // todo: validation
         return employeeService.getAllEmployeeProjects(employeeId);
     }
 
     // get all employee tasks by employee id
     @GetMapping(value = "/{employeeId}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> getAllEmployeeTasksById(@PathVariable Long employeeId) {
-        // todo: validation
         return employeeService.getAllEmployeeTasks(employeeId);
     }
 
     // get all employee tasks by employee username
     @GetMapping(value = "/{username}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> getAllEmployeeTasksByUsername(@PathVariable String username) {
-        // todo: validation
         return employeeService.getAllEmployeeTasksByUsername(username);
     }
 
@@ -87,7 +82,6 @@ public class EmployeeController {
     @GetMapping(value = "/{username}/tasks/{taskStatus}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> getAllEmployeeTasksByUsernameAndStatus(@PathVariable String username,
                                                              @PathVariable TaskStatus taskStatus) {
-        // todo: validation
         return employeeService.getAllEmployeeTasksByUsernameAndStatus(username, taskStatus);
     }
 
@@ -102,7 +96,6 @@ public class EmployeeController {
     @GetMapping(value = "/enrolled-between/start-date/{startDate}/end-date/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Employee> getEmployeesEnrolledInProjectsInDateRange(@PathVariable LocalDate startDate,
                                                                     @PathVariable LocalDate endDate) {
-        // todo: validation
         return employeeService.getEmployeesEnrolledInProjectsInDateRange(startDate, endDate);
     }
 
@@ -110,7 +103,6 @@ public class EmployeeController {
     @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> registerEmployee(@RequestBody Employee employee) {
-        // todo: validation
         employeeService.registerEmployee(employee);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", employee.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -121,7 +113,6 @@ public class EmployeeController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateEmployee(@RequestBody Employee employee) {
-        // todo: validation
         employeeService.updateEmployee(employee);
     }
 
@@ -130,7 +121,6 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void partialEmployeeUpdate(@PathVariable Long employeeId,
                                       @RequestBody Map<String, Object> updates) {
-        // todo: validation
         employeeService.partialEmployeeUpdate(employeeId, updates);
     }
 
@@ -139,7 +129,6 @@ public class EmployeeController {
     @DeleteMapping(value = "/{employeeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable Long employeeId) {
-        // todo: validation
         employeeService.deleteEmployee(employeeId);
     }
 }

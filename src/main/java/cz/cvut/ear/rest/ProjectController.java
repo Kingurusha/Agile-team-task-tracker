@@ -57,35 +57,30 @@ public class ProjectController {
     // get all projects with concrete status for authorized employee
     @GetMapping(value = "/status/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Project> getAllCurrentEmployeeProjectsByStatus(@PathVariable ProjectStatus status) {
-        // todo: validation
         return employeeService.getAllCurrentEmployeeProjectsByStatus(status);
     }
 
     // get project with concrete id
     @GetMapping(value = "/{projectId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Project getProjectById(@PathVariable Long projectId) {
-        // todo: validation
         return projectService.getProjectById(projectId);
     }
 
     // get project with concrete name
     @GetMapping(value = "/name/{projectName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Project getProjectByName(@PathVariable String projectName) {
-        // todo: validation
         return projectService.getProjectByName(projectName);
     }
 
     // get all sprints in project
     @GetMapping(value = "/{projectId}/sprints", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Sprint> getAllSprintsInProject(@PathVariable Long projectId) {
-        // todo: validation
         return projectService.getAllSprintsInProject(projectId);
     }
 
     // get all employees in project
     @GetMapping(value = "/{projectId}/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Employee> getAllEmployeesInProject(@PathVariable Long projectId) {
-        // todo: validation
         return projectService.getAllEmployeesInProject(projectId);
     }
 
@@ -93,7 +88,6 @@ public class ProjectController {
     @GetMapping(value = "/{projectId}/sprints/status/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Sprint> getAllSprintsWithStatusInProject(@PathVariable Long projectId,
                                                          @PathVariable SprintStatus status) {
-        // todo: validation
         return projectService.getAllSprintsWithStatusInProject(projectId, status);
     }
 
@@ -101,14 +95,12 @@ public class ProjectController {
     @GetMapping(value = "/{projectId}/sprints/{sprintOrdinalNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Sprint getSprintByOrdinalNumberInProject(@PathVariable Long projectId,
                                                     @PathVariable Integer sprintOrdinalNumber) {
-        // todo: validation
         return sprintService.getSprintByOrdinalNumberInProject(projectId, sprintOrdinalNumber);
     }
 
     // get current sprint in project
     @GetMapping(value = "/{projectId}/sprints/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public Sprint getCurrentSprintInProject(@PathVariable Long projectId) {
-        // todo: validation
         return projectService.getCurrentSprintInProject(projectId);
     }
 
@@ -116,7 +108,6 @@ public class ProjectController {
     @GetMapping(value = "/{projectId}/sprints/{sprintId}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> getAllTasksInSprint(@PathVariable Long projectId,
                                           @PathVariable Long sprintId) {
-        // todo: validation
         return projectService.getAllTasksInSprint(sprintId);
     }
 
@@ -125,14 +116,12 @@ public class ProjectController {
     public List<Task> getTasksInSprintByPriority(@PathVariable Long projectId,
                                                  @PathVariable Long sprintId,
                                                  @PathVariable TaskPriority taskPriority) {
-        // todo: validation
         return sprintService.getTasksInSprintByPriority(sprintId, taskPriority);
     }
 
     // get all projects that was active in date
     @GetMapping(value = "/active/date/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Project> getAllActiveProjectsInDate(@PathVariable LocalDate date) {
-        // todo: validation
         return projectService.getAllActiveProjectsInDate(date);
     }
 
@@ -140,7 +129,6 @@ public class ProjectController {
     @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createProject(@RequestBody Project project) {
-        // todo: validation
         projectService.createProject(project);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", project.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -151,7 +139,6 @@ public class ProjectController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProject(@RequestBody Project project) {
-        // todo: validation
         projectService.updateProject(project);
     }
 
@@ -160,7 +147,6 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void partialProjectUpdate(@PathVariable Long projectId,
                                      @RequestBody Map<String, Object> updates) {
-        // todo: validation
         projectService.partialProjectUpdate(projectId, updates);
     }
 
@@ -169,7 +155,6 @@ public class ProjectController {
     @DeleteMapping(value = "/{projectId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProject(@PathVariable Long projectId) {
-        // todo: validation
         projectService.deleteProject(projectId);
     }
 
@@ -179,7 +164,6 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeEmployeeFromProject(@PathVariable Long projectId,
                                           @PathVariable Long employeeId) {
-        // todo: validation
         projectService.removeEmployeeFromProject(projectId, employeeId);
     }
 }

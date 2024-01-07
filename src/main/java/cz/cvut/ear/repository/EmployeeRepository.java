@@ -1,6 +1,7 @@
 package cz.cvut.ear.repository;
 
 import cz.cvut.ear.model.Employee;
+import cz.cvut.ear.model.Project;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 public interface EmployeeRepository extends BaseRepository<Employee, Long> {
     Optional<Employee> findByUsername(String username);
+
 
     @Query("SELECT DISTINCT e FROM Employee e JOIN e.userProjects p WHERE p.id = :projectId")
     List<Employee> findEmployeesByProjectId(@Param("projectId") Long projectId);
@@ -22,4 +24,6 @@ public interface EmployeeRepository extends BaseRepository<Employee, Long> {
             "WHERE s.startDate BETWEEN :startDate AND :endDate")
     List<Employee> findEmployeesEnrolledInProjectsInDateRange(@Param("startDate") LocalDate startDate,
                                                               @Param("endDate") LocalDate endDate);
+
+    boolean existsByName(String name);
 }

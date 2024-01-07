@@ -31,7 +31,6 @@ public class SprintController {
     // get sprint with concrete id
     @GetMapping(value = "/{sprintId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Sprint getSprintById(@PathVariable Long sprintId) {
-        // todo: validation
         return sprintService.getSprintById(sprintId);
     }
 
@@ -46,7 +45,6 @@ public class SprintController {
     @GetMapping(value = "/between/first-date/{firstDate}/second-date/{secondDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Sprint> getSprintsByStartDateBetween(@PathVariable LocalDate firstDate,
                                                      @PathVariable LocalDate secondDate) {
-        // todo: validation
         return sprintService.getSprintsByStartDateBetween(firstDate, secondDate);
     }
 
@@ -54,7 +52,6 @@ public class SprintController {
     @PreAuthorize("hasRole('ROLE_EMPOWERED')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createSprint(@RequestBody Sprint sprint) {
-        // todo: validation
         sprintService.createSprint(sprint);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", sprint.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -65,7 +62,6 @@ public class SprintController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateSprint(@RequestBody Sprint sprint) {
-        // todo: validation
         sprintService.updateSprint(sprint);
     }
 
@@ -74,7 +70,6 @@ public class SprintController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void partialSprintUpdate(@PathVariable Long sprintId,
                                     @RequestBody Map<String, Object> updates) {
-        // todo: validation
         sprintService.partialSprintUpdate(sprintId, updates);
     }
 }

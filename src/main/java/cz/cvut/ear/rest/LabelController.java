@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -26,32 +27,39 @@ public class LabelController {
     }
 
 
-    // get all labels
-    // done
+//     get all labels
+//     done
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Label> getAllLabels() {
-        // no validation
         return labelService.getAllLabels();
     }
+
+//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<List<Label>> getAllLabels(@RequestParam(required = false) Long id) {
+//        if (id != null) {
+//            Label label = labelService.getLabelById(id);
+//            return ResponseEntity.ok(Collections.singletonList(label));
+//        } else {
+//            List<Label> labels = labelService.getAllLabels();
+//            return ResponseEntity.ok(labels);
+//        }
+//    }
 
     // get label with concrete id
     @GetMapping(value = "/{labelId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Label getLabelById(@PathVariable Long labelId) {
-        // todo: validation
         return labelService.getLabelById(labelId);
     }
 
     // get label with concrete name
     @GetMapping(value = "/name/{labelName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Label getLabelByName(@PathVariable String labelName) {
-        // todo: validation
         return labelService.getLabelByName(labelName);
     }
 
     // create new label
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createLabel(@RequestBody Label label) {
-        // todo: validation
         labelService.createLabel(label);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", label.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -62,7 +70,6 @@ public class LabelController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateLabel(@RequestBody Label label) {
-        // todo: validation
         labelService.updateLabel(label);
     }
 
@@ -71,7 +78,6 @@ public class LabelController {
     @DeleteMapping(value = "/{labelId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabel(@PathVariable Long labelId) {
-        // todo: validation
         labelService.deleteLabel(labelId);
     }
 }

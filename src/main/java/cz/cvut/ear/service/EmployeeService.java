@@ -1,9 +1,12 @@
 package cz.cvut.ear.service;
 
+import cz.cvut.ear.helper.validator.EmployeeValidator;
 import cz.cvut.ear.model.Employee;
 import cz.cvut.ear.model.Project;
+import cz.cvut.ear.model.Sprint;
 import cz.cvut.ear.model.Task;
 import cz.cvut.ear.model.enums.ProjectStatus;
+import cz.cvut.ear.model.enums.Role;
 import cz.cvut.ear.model.enums.TaskStatus;
 import cz.cvut.ear.repository.EmployeeRepository;
 import cz.cvut.ear.repository.ProjectRepository;
@@ -17,20 +20,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
+    private final EmployeeValidator employeeValidator;
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
 
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, TaskRepository taskRepository, ProjectRepository projectRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, TaskRepository taskRepository, ProjectRepository projectRepository, EmployeeValidator employeeValidator) {
         this.employeeRepository = employeeRepository;
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
+        this.employeeValidator = employeeValidator;
     }
 
 
@@ -45,12 +51,14 @@ public class EmployeeService {
     // done
     @Transactional(readOnly = true)
     public Employee getEmployeeById(Long employeeId) {
+        employeeValidator.validateEmployeeExistsById(employeeId);
         return employeeRepository.findById(employeeId).get();
     }
 
     // done
     @Transactional(readOnly = true)
     public Employee getEmployeeByUsername(String username) {
+        employeeValidator.validateEmployeeExistsByName(username);
         return employeeRepository.findByUsername(username).get();
     }
 
@@ -63,24 +71,28 @@ public class EmployeeService {
     // done
     @Transactional(readOnly = true)
     public List<Project> getAllEmployeeProjects(Long employeeId) {
+        employeeValidator.validateEmployeeExistsById(employeeId);
         return projectRepository.getAllEmployeeProjects(employeeId);
     }
 
     // done
     @Transactional(readOnly = true)
     public List<Task> getAllEmployeeTasks(Long employeeId) {
+        employeeValidator.validateEmployeeExistsById(employeeId);
         return taskRepository.getAllEmployeeTasks(employeeId);
     }
 
     // done
     @Transactional(readOnly = true)
     public List<Task> getAllEmployeeTasksByUsername(String username) {
+        employeeValidator.validateEmployeeExistsByName(username);
         return taskRepository.getAllEmployeeTasksByUsername(username);
     }
 
     // done
     @Transactional(readOnly = true)
     public List<Task> getAllEmployeeTasksByUsernameAndStatus(String username, TaskStatus taskStatus) {
+        employeeValidator.validateEmployeeExistsByName(username);
         return taskRepository.findByAssigneeUsernameAndTaskStatus(username, taskStatus);
     }
 
@@ -98,21 +110,57 @@ public class EmployeeService {
 
     @Transactional
     public void registerEmployee(Employee employee) {
-        LOG.debug("");
+        employeeValidator.validateEmployeeAlreadyExist(employee);
+        employeeRepository.saveAndFlush(employee);
+        LOG.debug("Created employee {}.", employee);
     }
 
     @Transactional
     public void updateEmployee(Employee employee) {
-        LOG.debug("");
+        employeeValidator.validateEmployeeExists(employee);
+        employeeRepository.saveAndFlush(employee);
+        LOG.debug("Updated employee {}.", employee);
     }
 
     @Transactional
     public void partialEmployeeUpdate(Long employeeId, Map<String, Object> updates) {
-        LOG.debug("");
+        employeeValidator.validateEmployeeExistsById(employeeId);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "name" -> employee.setName((String) value);
+                case "surname" -> employee.setSurname((String) value);
+                case "username" -> employee.setUsername((String) value);
+                case "password" -> employee.setPassword((String) value);
+                case "role" -> employee.setRole((Role) value);
+                case "email" -> employee.setEmail((String) value);
+                default -> LOG.warn("Unknown field: {}", key);
+            }
+        });
+
+        employeeRepository.saveAndFlush(employee);
+        LOG.debug("Updated employee {}.", employee);
     }
 
     @Transactional
     public void deleteEmployee(Long employeeId) {
-        LOG.debug("");
+        employeeValidator.validateEmployeeExistsById(employeeId);
+        employeeValidator.validateEmployeeDelete(employeeId);
+        Employee employee = employeeRepository.findById(employeeId).get();
+        Set<Project> userProjects = employee.getUserProjects();
+        // delete from projects
+        for (Project project : userProjects) {
+            project.getUsersInProject().remove(employee);
+        }
+        // delete from tasks and tasks from sprint
+        Set<Task> userTasks = employee.getUserTasks();
+        for (Task task : userTasks) {
+            Sprint sprint = task.getSprint();
+            if (sprint != null) {
+                sprint.getTasksInSprint().remove(task);
+            taskRepository.deleteById(task.getId());
+        }
+        }
     }
 }
