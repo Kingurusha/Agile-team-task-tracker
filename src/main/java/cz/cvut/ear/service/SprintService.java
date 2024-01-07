@@ -40,7 +40,7 @@ public class SprintService {
     // done
     @Transactional(readOnly = true)
     public Sprint getSprintById(Long sprintId) {
-//        sprintValidator.validateSprintExistsById(sprintId);
+        sprintValidator.validateSprintExistsById(sprintId);
         return sprintRepository.findById(sprintId).get();
     }
 
