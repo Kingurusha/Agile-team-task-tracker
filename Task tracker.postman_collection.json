@@ -1,0 +1,1209 @@
+{
+	"info": {
+		"_postman_id": "c706b8be-3b2d-4966-9789-479d685225f7",
+		"name": "Task tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32120896",
+		"_collection_link": "https://lively-water-890123.postman.co/workspace/agile-team-task-tracker~31392d41-5bf2-4643-bf03-39f89e294758/collection/32120896-c706b8be-3b2d-4966-9789-479d685225f7?action=share&source=collection_link&creator=32120896"
+	},
+	"item": [
+		{
+			"name": "Labels",
+			"item": [
+				{
+					"name": "Get all labels",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id and labelName\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(item) {\r",
+									"        pm.expect(item).to.have.property('id');\r",
+									"        pm.expect(item).to.have.property('labelName');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Id is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    responseData.forEach(function(item) {\r",
+									"        pm.expect(item.id).to.be.a('number').that.is.at.least(0);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"LabelName is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(label) {\r",
+									"        pm.expect(label.labelName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"LabelName should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}labels",
+							"host": [
+								"{{BASE_URL}}labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get label with concrete id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id and labelName\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id');\r",
+									"    pm.expect(responseData).to.have.property('labelName');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Id is a non-negative integer\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.id).to.be.a('number');\r",
+									"  pm.expect(responseData.id).to.be.at.least(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"LabelName is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.labelName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"LabelName should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}labels/4",
+							"host": [
+								"{{BASE_URL}}labels"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get label with concrete name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Id field in the response should exist and be a number\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.id).to.exist.and.to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"LabelName field should exist and be a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.labelName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"LabelName should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"No additional unexpected fields in the response\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object').and.to.not.include.any.keys('unexpectedField');\r",
+									"});\r",
+									"\r",
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Label Name</th>\r",
+									"    </tr>\r",
+									"    <tr>\r",
+									"        <td>{{response.id}}</td>\r",
+									"        <td>{{response.labelName}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json()}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}labels/name/Creativity",
+							"host": [
+								"{{BASE_URL}}labels"
+							],
+							"path": [
+								"name",
+								"Creativity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new label",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableUrlEncoding": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"labelName\": \"testPOST\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}labels",
+							"host": [
+								"{{BASE_URL}}labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the whole label",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"labelName\": \"testPUT_update\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}labels",
+							"host": [
+								"{{BASE_URL}}labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the whole label",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 401\", function () {\r",
+									"  pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response content type is text/xml\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/xml\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response body is null\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.null;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify that the response body is empty or null\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.null;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response does not contain sensitive information\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"\r",
+									"    pm.expect(responseData).to.be.null;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}labels/4",
+							"host": [
+								"{{BASE_URL}}labels"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "f4eoi",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "SapphireSwift",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Get all projects in system",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/all",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCurrentEmployeeProjects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects",
+							"host": [
+								"{{BASE_URL}}projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCurrentEmployeeProjectsByStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/status/IN_PROGRESS",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"status",
+								"IN_PROGRESS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProjectById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/1",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProjectByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/name/Customer Support Improvement",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"name",
+								"Customer Support Improvement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllSprintsInProject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/2/sprints",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"2",
+								"sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllEmployeesInProject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/1/employees",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"1",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllSprintsWithStatusInProject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/2/sprints/status/CLOSED",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"2",
+								"sprints",
+								"status",
+								"CLOSED"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSprintByOrdinalNumberInProject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/1/sprints/3",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"1",
+								"sprints",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCurrentSprintInProject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/2/sprints/current",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"2",
+								"sprints",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTasksInSprint",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/1/sprints/2/tasks",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"1",
+								"sprints",
+								"2",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTasksInSprintByPriority",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/2/sprints/1/tasks/LOW",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"2",
+								"sprints",
+								"1",
+								"tasks",
+								"LOW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllActiveProjectsInDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/active/date/2022-01-01",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"active",
+								"date",
+								"2022-01-01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createProject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"projectName\": \"Test\",\r\n    \"projectStatus\": \"FUTURE\",\r\n    \"startDate\": \"2025-02-01\",\r\n    \"endDate\": null,\r\n    \"description\": \"Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}projects",
+							"host": [
+								"{{BASE_URL}}projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"projectName\": \"Test_update\",\r\n    \"projectStatus\": \"FUTURE\",\r\n    \"startDate\": \"2030-02-01\",\r\n    \"endDate\": null,\r\n    \"description\": \"Test_update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}projects",
+							"host": [
+								"{{BASE_URL}}projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partialProjectUpdate",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}projects/2",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProject",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/5",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeEmployeeFromProject",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}projects/2/employees/1",
+							"host": [
+								"{{BASE_URL}}projects"
+							],
+							"path": [
+								"2",
+								"employees",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sprint",
+			"item": [
+				{
+					"name": "getSprintById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}sprints/4",
+							"host": [
+								"{{BASE_URL}}sprints"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllSprintsWithGoalKeyWord",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}sprints/goal/Develop Integration with Third-Party Services",
+							"host": [
+								"{{BASE_URL}}sprints"
+							],
+							"path": [
+								"goal",
+								"Develop Integration with Third-Party Services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSprintsByStartDateBetween",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}sprints/between/first-date/2023-04-01/second-date/2023-09-01",
+							"host": [
+								"{{BASE_URL}}sprints"
+							],
+							"path": [
+								"between",
+								"first-date",
+								"2023-04-01",
+								"second-date",
+								"2023-09-01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSprint",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 14,\r\n    \"startDate\": \"2025-01-01\",\r\n    \"endDate\": \"2025-02-01\",\r\n    \"sprintStatus\": \"FUTURE\",\r\n    \"goal\": \"Test\",\r\n    \"project_id\": 1,\r\n    \"ordinalNumberInProject\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}sprints",
+							"host": [
+								"{{BASE_URL}}sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSprint",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"startDate\": \"2023-01-01\",\r\n    \"endDate\": \"2023-02-15\",\r\n    \"sprintStatus\": \"CLOSED\",\r\n    \"goal\": \"Enhance User Interface and User Experience\",\r\n    \"ordinalNumberInProject\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}sprints",
+							"host": [
+								"{{BASE_URL}}sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}sprints/4",
+							"host": [
+								"{{BASE_URL}}sprints"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "getTaskById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}tasks/3",
+							"host": [
+								"{{BASE_URL}}tasks"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllOverdueOpenTasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}tasks/overdue-and-open",
+							"host": [
+								"{{BASE_URL}}tasks"
+							],
+							"path": [
+								"overdue-and-open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTasksDueToDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}tasks/due-to/2023-01-02",
+							"host": [
+								"{{BASE_URL}}tasks"
+							],
+							"path": [
+								"due-to",
+								"2023-01-02"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTask",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 50,\r\n    \"taskName\": \"Test\",\r\n    \"taskPoints\": 3,\r\n    \"taskStatus\": \"TO_DO\",\r\n    \"taskPriority\": \"LOW\",\r\n    \"creationDate\": \"2023-01-03T11:30:00\",\r\n    \"lastUpdateDate\": \"2023-01-03T11:30:00\",\r\n    \"dueDate\": null,\r\n    \"description\": \"Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}tasks",
+							"host": [
+								"{{BASE_URL}}tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTask",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"taskName\": \"Test\",\r\n    \"taskPoints\": 3,\r\n    \"taskStatus\": \"TO_DO\",\r\n    \"taskPriority\": \"LOW\",\r\n    \"creationDate\": \"2023-01-03T11:30:00\",\r\n    \"lastUpdateDate\": \"2023-01-03T11:30:00\",\r\n    \"dueDate\": null,\r\n    \"description\": \"Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}tasks",
+							"host": [
+								"{{BASE_URL}}tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partialTaskUpdate",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"TestTestTest\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}tasks/2",
+							"host": [
+								"{{BASE_URL}}tasks"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTask",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}tasks/4",
+							"host": [
+								"{{BASE_URL}}tasks"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEmployeeFromParticipants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}tasks/4/participants/6",
+							"host": [
+								"{{BASE_URL}}tasks"
+							],
+							"path": [
+								"4",
+								"participants",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Get current authorized employee",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "as",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}employees/current",
+							"host": [
+								"{{BASE_URL}}employees"
+							],
+							"path": [
+								"current"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login (regular)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tracker/login?username=ThunderVolt&password=l6jrt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tracker",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "ThunderVolt"
+						},
+						{
+							"key": "password",
+							"value": "l6jrt"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login (empowered)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tracker/login?username=SwiftShadow&password=x9err",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tracker",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "SwiftShadow"
+						},
+						{
+							"key": "password",
+							"value": "x9err"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tracker/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tracker",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080/tracker/api/",
+			"type": "string"
+		}
+	]
+}
